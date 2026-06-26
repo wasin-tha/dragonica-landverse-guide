@@ -113,8 +113,10 @@ function prereqOf(skills,s){
   const idx=skills.findIndex(x=>x.name.toLowerCase()===nm);
   return idx>=0?{idx,lv:parseInt(m[2],10)||1}:null;
 }
-// in-game style: prereq chains flow top->bottom (depth=row),
-// sibling branches spread across columns (tidy-tree, parents centered over children)
+// in-game style (Dragon Saga): แต่ละสาย prereq เป็นบล็อกแนวตั้ง
+// แล้ว "masonry pack" หลายบล็อกลง LANES คอลัมน์ (วางบล็อกใหม่ในเลนเตี้ยสุด)
+// → ได้กริดแน่นเป็นสี่เหลี่ยม ไม่ใช่ป่าคอลัมน์เดี่ยวกระจาย
+const LANES=3, GAP_ROWS=1;
 function computeLayout(skills){
   const pr=skills.map(s=>prereqOf(skills,s));
   const depth=new Array(skills.length).fill(-1);
@@ -123,16 +125,36 @@ function computeLayout(skills){
   skills.forEach((_,i)=>d(i,new Set()));
   const kids=skills.map(()=>[]), roots=[];
   pr.forEach((r,i)=>{if(r)kids[r.idx].push(i);else roots.push(i);});
-  // integer lanes: main line goes straight down (parent over its first child),
-  // extra branches peel off into new columns to the right — แบบเกม
-  const col=new Array(skills.length).fill(0); let nextCol=0;
-  function place(i){
-    if(!kids[i].length){col[i]=nextCol++;return;}
-    kids[i].forEach(place);
-    col[i]=col[kids[i][0]];
-  }
-  roots.forEach(place);
-  const pos=skills.map((_,i)=>({col:col[i],row:depth[i]}));
+
+  // 1) layout ภายในบล็อก: คอลัมน์สัมพัทธ์ (สายหลักตรง, แตกแขนงไปขวา), row = depth
+  const relCol=new Array(skills.length).fill(0);
+  const groups=roots.map(root=>{
+    let lane=0;
+    (function place(i){
+      if(!kids[i].length){relCol[i]=lane++;return;}
+      kids[i].forEach(place); relCol[i]=relCol[kids[i][0]];
+    })(root);
+    const members=[]; (function collect(i){members.push(i);kids[i].forEach(collect);})(root);
+    let w=1,h=1; members.forEach(i=>{w=Math.max(w,relCol[i]+1);h=Math.max(h,depth[i]+1);});
+    return {members,w,h};
+  });
+
+  // 2) masonry: วางบล็อกลงเลนที่ bottom ต่ำสุด (เรียงตามลำดับสกิล)
+  const L=Math.min(LANES,groups.length||1);
+  const laneBottom=new Array(L).fill(0);
+  groups.forEach(g=>{
+    let k=0; for(let j=1;j<L;j++) if(laneBottom[j]<laneBottom[k]) k=j;
+    g.lane=k; g.rowOff=laneBottom[k]; laneBottom[k]=g.rowOff+g.h+GAP_ROWS;
+  });
+  // 3) ตำแหน่ง x ของแต่ละเลน = สะสมความกว้างจริง + ช่องว่าง 1
+  const laneW=new Array(L).fill(1);
+  groups.forEach(g=>{laneW[g.lane]=Math.max(laneW[g.lane],g.w);});
+  const laneX=new Array(L).fill(0);
+  for(let k=1;k<L;k++) laneX[k]=laneX[k-1]+laneW[k-1]+1;
+
+  const colOff=new Array(skills.length).fill(0), rowOff=new Array(skills.length).fill(0);
+  groups.forEach(g=>g.members.forEach(i=>{colOff[i]=laneX[g.lane];rowOff[i]=g.rowOff;}));
+  const pos=skills.map((_,i)=>({col:colOff[i]+relCol[i], row:rowOff[i]+depth[i]}));
   return {pr,pos};
 }
 function prereqMet(p,t,skills,i,layout){const r=layout.pr[i];return !r || getLv(p,t,r.idx)>=r.lv}
