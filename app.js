@@ -93,7 +93,7 @@ function renderClassPanel(){
 /* ============================================================================
    SKILL TREE SIMULATOR (official, auto-layout จาก prerequisite)
    ========================================================================== */
-const NS=46, GX=96, GY=94, PAD=30;
+const NS=40, GX=64, GY=80, PAD=24;
 let simPath=0, simTier=0, alloc={};
 
 function tierClass(p,t){const pp=(typeof p==='number')?OFFICIAL.paths[p]:p;return OFFICIAL.classes[pp.tiers[t]]}
@@ -123,12 +123,13 @@ function computeLayout(skills){
   skills.forEach((_,i)=>d(i,new Set()));
   const kids=skills.map(()=>[]), roots=[];
   pr.forEach((r,i)=>{if(r)kids[r.idx].push(i);else roots.push(i);});
+  // integer lanes: main line goes straight down (parent over its first child),
+  // extra branches peel off into new columns to the right — แบบเกม
   const col=new Array(skills.length).fill(0); let nextCol=0;
   function place(i){
     if(!kids[i].length){col[i]=nextCol++;return;}
     kids[i].forEach(place);
-    const cs=kids[i].map(k=>col[k]);
-    col[i]=(Math.min(...cs)+Math.max(...cs))/2;
+    col[i]=col[kids[i][0]];
   }
   roots.forEach(place);
   const pos=skills.map((_,i)=>({col:col[i],row:depth[i]}));
@@ -167,7 +168,7 @@ function renderTree(){
   const nodes=skills.map((s,i)=>{const {x,y}=xy(i);const lv=getLv(simPath,simTier,i);const mx=skillMax(s);
     const met=prereqMet(simPath,simTier,skills,i,layout);
     const cls=lv>=mx?'maxed':(lv>0?'has':(met?'':'locked'));
-    return `<div class="node ${cls}" style="left:${x}px;top:${y}px;--ns:${NS}px">
+    return `<div class="node ${cls}" style="left:${x}px;top:${y}px;--ns:${NS}px;--lw:${GX-6}px">
       <div class="ibox" data-i="${i}"><img src="${s.icon}" alt="${esc(s.name)}" loading="lazy">
         <span class="lvtag">${lv}/${mx}</span>
         <button class="pm minus" data-i="${i}" data-d="-1" ${lv<=0?'disabled':''}>−</button>
