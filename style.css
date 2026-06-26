@@ -159,7 +159,7 @@ header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);backgroun
 .node .ibox img{width:100%;height:100%;border-radius:9px;display:block}
 .node.has .ibox{border-color:var(--cc)}
 .node.maxed .ibox{border-color:var(--gold);box-shadow:0 0 0 2px rgba(245,185,66,.45),0 4px 12px rgba(0,0,0,.5)}
-.node.locked .ibox{filter:grayscale(.85) brightness(.55)}
+.node.locked .ibox{filter:grayscale(.55) brightness(.92);opacity:.8}
 .node .lvtag{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.64rem;font-weight:700;background:#0a0e18;border:1px solid var(--cc);color:#fff;padding:1px 6px;border-radius:6px;white-space:nowrap;z-index:3}
 .node.maxed .lvtag{border-color:var(--gold);background:var(--gold);color:#1a1206}
 .node .pm{position:absolute;top:-9px;width:20px;height:20px;border-radius:50%;border:none;cursor:pointer;font-size:.95rem;font-weight:800;line-height:1;display:none;z-index:4;color:#fff}
