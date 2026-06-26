@@ -187,7 +187,9 @@ header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);backgroun
 .sys-chips button{cursor:pointer;border:1px solid var(--border);background:var(--panel);color:var(--muted);padding:8px 14px;border-radius:999px;font-size:.84rem;font-weight:600;transition:.18s;display:flex;align-items:center;gap:7px}
 .sys-chips button svg{width:15px;height:15px}
 .sys-chips button:hover,.sys-chips button.on{color:#0a0e18;background:var(--gold);border-color:transparent}
-.sys-panel{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;scroll-margin-top:78px}
+.sys-panel{display:none;background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--border);border-radius:16px;padding:24px;scroll-margin-top:78px}
+.sys-panel.show{display:block;animation:sysIn .2s ease}
+@keyframes sysIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .sys-panel .sh{display:flex;gap:13px;align-items:center;margin-bottom:6px}
 .sys-panel .sh .si{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:rgba(245,185,66,.12);color:var(--gold2);border:1px solid rgba(245,185,66,.25);flex:none}
 .sys-panel .sh .si svg{width:22px;height:22px}

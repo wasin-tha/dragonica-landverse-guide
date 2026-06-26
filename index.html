@@ -21,8 +21,7 @@
     <nav class="navlinks" id="navlinks">
       <a href="#overview">ภาพรวม</a>
       <a href="#news">ข่าวสาร</a>
-      <a href="#classes">อาชีพ</a>
-      <a href="#sim">จำลองสกิล</a>
+      <a href="#classes">อาชีพ & สกิล</a>
       <a href="#systems">ระบบเกม</a>
       <a href="#sources">อ้างอิง</a>
     </nav>
@@ -38,7 +37,7 @@
     <div class="cta">
       <a class="btn btn-primary" href="#classes">ดู 20 อาชีพ
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="btn btn-ghost" href="#sim">ตัวจำลองสกิล</a>
+      <a class="btn btn-ghost" href="#classes">ตัวจำลองสกิล</a>
       <a class="btn btn-ghost" href="https://drlv.maxion.gg/" target="_blank" rel="noopener">เว็บเกมหลัก ↗</a>
     </div>
     <div class="heroStats" id="heroStats"></div>
@@ -67,24 +66,15 @@
   </div>
 </section>
 
-<!-- CLASSES -->
+<!-- CLASSES + SKILL TREE -->
 <section id="classes">
   <div class="wrap reveal">
-    <span class="eyebrow">สายอาชีพ</span>
-    <h2 class="title">4 อาชีพหลัก → <span class="grad">20 อาชีพ</span></h2>
-    <p class="lead">เลื่อนอาชีพ 2 ที่ <b>Lv.20</b> และอาชีพ 3 ที่ <b>Lv.40</b> — กดเลือกอาชีพเพื่อดูอาร์ตทางการ จุดเด่น และแผนผังสายอาชีพ (3 เทียร์)</p>
+    <span class="eyebrow">สายอาชีพ & ตัวจำลองสกิล</span>
+    <h2 class="title">4 อาชีพหลัก → <span class="grad">20 อาชีพ</span> + อัพสกิล</h2>
+    <p class="lead">เลื่อนอาชีพ 2 ที่ <b>Lv.20</b> และอาชีพ 3 ที่ <b>Lv.40</b> — กดเลือกอาชีพเพื่อดูอาร์ตทางการ จุดเด่น แผนผังสายอาชีพ และลองอัพสกิลในตัวจำลอง (กดไอคอน <b>+ / −</b>, ชี้/แตะดูค่าพลัง)</p>
     <div class="class-tabs" id="classTabs" style="margin-top:24px"></div>
     <div id="classPanel"></div>
-  </div>
-</section>
-
-<!-- SIMULATOR -->
-<section id="sim" style="background:linear-gradient(180deg,transparent,rgba(12,19,34,.6),transparent)">
-  <div class="wrap reveal">
-    <span class="eyebrow">เครื่องมือ</span>
-    <h2 class="title">ตัวจำลอง <span class="grad">Skill Tree</span> — อัพสกิลทางการ</h2>
-    <p class="lead">สกิลและไอคอนจริงจาก Whitepaper เลือกอาชีพ/สาย/เทียร์ กดไอคอน <b>+ / −</b> เพื่ออัพ ระบบเช็กสกิลที่ต้องปลดก่อน (prerequisite) — ชี้/แตะที่สกิลเพื่อดูค่าพลัง/MP/คูลดาวน์/เลเวลที่ใช้ได้</p>
-    <div id="tree" style="margin-top:22px"></div>
+    <div id="tree" style="margin-top:22px" aria-label="ตัวจำลอง Skill Tree"></div>
     <p class="note">ข้อมูลสกิล รูปไอคอน และค่าพลังทั้งหมด อ้างอิง Whitepaper ทางการของ Dragonica Landverse — เพดานสกิลปกติ Lv.5 ขยายได้ถึง Lv.10 ด้วยระบบการ์ด (ดูหัวข้อระบบเกม)</p>
   </div>
 </section>

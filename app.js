@@ -63,7 +63,9 @@ function renderTabs(){
       <div class="cic">${em?`<img src="${em}" alt="">`:''}</div><b>${b.name}</b><span>${b.th} · ${b.role.split(' ')[0]}</span></div>`;
   }).join('');
   document.querySelectorAll('.ctab').forEach(el=>{
-    const go=()=>{activeBase=el.dataset.b;renderTabs();renderClassPanel();};
+    const go=()=>{activeBase=el.dataset.b;
+      const fp=OFFICIAL.paths.findIndex(x=>x.base===activeBase);if(fp>=0){simPath=fp;simTier=0;}
+      renderTabs();renderClassPanel();renderTree();};
     el.onclick=go; el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};
   });
 }
@@ -86,7 +88,7 @@ function renderClassPanel(){
       <p style="color:var(--muted);font-size:.92rem;margin-top:6px">${esc(baseCls.intro)}</p>
       <div style="margin-top:18px"><span class="eyebrow" style="color:var(--cc)">แผนผังสายอาชีพ (3 เทียร์)</span></div>
       <div class="tree">${tree}</div>
-      <p style="font-size:.82rem;color:var(--dim);margin-top:6px">ดูสกิลแต่ละอาชีพแบบละเอียด + ลองจัดบิลด์ได้ที่ <a href="#sim" style="color:var(--cc)" onclick="simToBase('${activeBase}')">ตัวจำลอง Skill Tree ↓</a></p>
+      <p style="font-size:.82rem;color:var(--dim);margin-top:6px">เลือกสาย/เทียร์ แล้วกดไอคอน <b>+ / −</b> เพื่อจัดบิลด์ในตัวจำลองด้านล่าง ↓</p>
     </div>`;
 }
 
@@ -203,10 +205,6 @@ function renderTree(){
   $('#tree').innerHTML=`
     <div class="tree-wrap" style="--cc:${cc}">
       <div class="picker">
-        <div class="base-row" id="baseSel">
-          ${OFFICIAL.order.map(id=>{const bb=OFFICIAL.bases[id],em=CLASS_EMBLEM[id];
-            return `<button class="base-btn ${id===curBase?'on':''}" data-base="${id}" style="--cc:${bb.color}"><img src="${em}" alt=""><span>${bb.name}</span></button>`;}).join('')}
-        </div>
         <div class="branch-row" id="branchSel">
           ${branchLines.map(o=>{const t2=o.pp.tiers[1],t3=o.pp.tiers[2];
             return `<button class="branch-btn ${o.i===simPath?'on':''}" data-p="${o.i}" style="--cc:${cc}">
@@ -235,7 +233,6 @@ function renderTree(){
       </div>
     </div>`;
 
-  document.querySelectorAll('#baseSel .base-btn').forEach(b=>b.onclick=()=>{const fp=OFFICIAL.paths.findIndex(x=>x.base===b.dataset.base);if(fp>=0){simPath=fp;simTier=0;renderTree();}});
   document.querySelectorAll('#branchSel .branch-btn').forEach(b=>b.onclick=()=>{simPath=+b.dataset.p;renderTree()});
   document.querySelectorAll('#tierTabs button').forEach(b=>b.onclick=()=>{simTier=+b.dataset.t;renderTree()});
   document.querySelectorAll('.pm').forEach(b=>b.onclick=e=>{e.stopPropagation();changeNode(+b.dataset.i,+b.dataset.d)});
@@ -298,7 +295,6 @@ function shareTree(){
   txt+=`\nรวม ${totalSP(simPath)} SP`;
   navigator.clipboard?.writeText(txt).then(()=>toast('คัดลอกสรุปบิลด์แล้ว ✓'),()=>toast('คัดลอกไม่ได้'));
 }
-function simToBase(base){const fp=OFFICIAL.paths.findIndex(x=>x.base===base);if(fp>=0){simPath=fp;simTier=0;renderTree();}}
 
 /* ============================================================================
    SYSTEMS (generic block renderer)
@@ -316,15 +312,20 @@ function renderBlocks(blocks){
     return '';
   }).join('');
 }
+let sysActive=SYSTEMS[0]?.id;
+function showSystem(id){
+  sysActive=id;
+  document.querySelectorAll('#sysChips button').forEach(x=>x.classList.toggle('on',x.dataset.id===id));
+  document.querySelectorAll('#systemsWrap .sys-panel').forEach(p=>p.classList.toggle('show',p.id==='sys-'+id));
+}
 function renderSystems(){
   $('#sysChips').innerHTML=SYSTEMS.map(s=>`<button data-id="${s.id}">${svg(s.icon)}${esc(s.title.split('(')[0].trim())}</button>`).join('');
   $('#systemsWrap').innerHTML=SYSTEMS.map(s=>`
     <div class="sys-panel" id="sys-${s.id}">
       <div class="sh"><div class="si">${svg(s.icon)}</div><h3>${esc(s.title)}</h3><span class="tg">${esc(s.tag)}</span></div>
       <p class="sintro">${s.intro}</p>${renderBlocks(s.blocks)}</div>`).join('');
-  document.querySelectorAll('#sysChips button').forEach(b=>b.onclick=()=>{
-    document.getElementById('sys-'+b.dataset.id)?.scrollIntoView({behavior:'smooth',block:'start'});
-    document.querySelectorAll('#sysChips button').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
+  document.querySelectorAll('#sysChips button').forEach(b=>b.onclick=()=>showSystem(b.dataset.id));
+  showSystem(sysActive);
 }
 
 /* ---------- TOAST + INIT ---------- */
@@ -333,10 +334,10 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 
 (function init(){
   try{const s=JSON.parse(localStorage.getItem('drlv_o'));if(s){simPath=s.simPath||0;simTier=s.simTier||0;alloc=s.alloc||{};}}catch(e){}
+  activeBase=OFFICIAL.paths[simPath]?.base||activeBase; // ให้แท็บอาชีพตรงกับสายที่บันทึกไว้
   renderTabs();renderClassPanel();renderTree();renderSystems();
   $('#menuBtn').onclick=()=>$('#navlinks').classList.toggle('open');
   document.querySelectorAll('#navlinks a').forEach(a=>a.onclick=()=>$('#navlinks').classList.remove('open'));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 })();
-window.simToBase=simToBase;
