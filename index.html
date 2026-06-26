@@ -135,7 +135,9 @@ header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
 .tree{display:flex;gap:8px;overflow-x:auto;padding:18px 2px;margin-top:14px}
 .tier{min-width:150px;flex:1}
 .tier .lvl{font-family:var(--mono);font-size:.72rem;color:var(--cc);text-align:center;margin-bottom:8px;letter-spacing:.1em}
-.job{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:11px;margin-bottom:8px;font-size:.85rem}
+.job{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:11px;margin-bottom:8px;font-size:.85rem;
+  display:flex;gap:9px;align-items:flex-start}
+.jicon{width:36px;height:36px;border-radius:8px;flex:none;image-rendering:auto}
 .job b{display:block;color:var(--text);font-weight:700;margin-bottom:2px}
 .job span{color:var(--dim);font-size:.76rem;line-height:1.5}
 .tier:not(:last-child){position:relative}
@@ -252,7 +254,13 @@ header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
 .tier-tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tier-tabs button{font-family:var(--font);cursor:pointer;border:1px solid var(--border);background:var(--bg);
   color:var(--muted);padding:8px 14px;border-radius:10px;font-size:.84rem;font-weight:600;transition:.18s;display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.2}
+.tier-tabs button img{width:26px;height:26px;border-radius:6px;flex:none}
+.tier-tabs button{flex-direction:row;align-items:center;gap:8px}
+.tier-tabs button span{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
 .tier-tabs button small{font-family:var(--mono);font-size:.62rem;opacity:.7}
+.branch-btn img{width:34px;height:34px;border-radius:8px;flex:none}
+.branch-btn{flex-direction:row;align-items:center;gap:11px}
+.branch-btn>div{display:flex;flex-direction:column;gap:1px}
 .tier-tabs button:hover{color:var(--text)}
 .tier-tabs button.on{background:var(--cc,var(--gold));color:#0a0e18;border-color:transparent}
 .tier-tabs button.on small{opacity:.85}

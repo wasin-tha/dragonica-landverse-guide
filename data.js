@@ -345,12 +345,47 @@ const NEWS = [
   },
 ];
 
-/* ---- ไอคอนตัวแทนแต่ละอาชีพ (รูปสกิลจริงในเกม) ---- */
+/* ---- ไอคอนอาชีพจริง (job-change icons จากในเกม) ---- */
+const CLASS_ICON_DIR = "assets/classicons/";
+// แมปชื่ออาชีพ -> ไฟล์ไอคอน (อาชีพที่ไม่มีไอคอนจะ fallback เป็นสายก่อนหน้า)
+const JOB_ICON = {
+  warrior:"warrior.gif", knight:"knight.gif", gladiator:"gladiator.gif",
+  paladin:"paladin.gif", myrmidon:"myrmidon.gif", dragoon:"paladin.gif",
+  destroyer:"myrmidon.gif", overlord:"myrmidon.gif",
+  magician:"magician.gif", mage:"magician.gif", acolyte:"acolyte.gif", monk:"acolyte.gif",
+  battlemage:"battlemage.gif", wizard:"battlemage.gif", oracle:"oracle.gif", priest:"oracle.gif",
+  warmage:"warmage.gif", warlock:"warmage.gif", cleric:"oracle.gif", invoker:"oracle.gif",
+  arcanist:"warmage.gif", sorcerer:"warmage.gif",
+  archer:"archer.gif", hunter:"hunter.gif", ranger:"ranger.gif", marksman:"ranger.gif",
+  trapper:"trapper.gif", pathfinder:"trapper.gif", sniper:"ballista.gif", specialist:"ballista.gif",
+  ballista:"ballista.gif", sentinel:"trapper.gif",
+  thief:"thief.gif", jester:"jester.gif", clown:"jester.gif", assassin:"assassin.gif",
+  infiltrator:"assassin.gif", harlequin:"harlequin.gif", dancer:"harlequin.gif",
+  ninja:"ninja.gif", savage:"harlequin.gif", bandit:"jester.gif", rogue:"harlequin.gif",
+};
+function jobIcon(name){
+  if(!name) return null;
+  const k = String(name).toLowerCase().replace(/[^a-z ].*$/,'').trim().split(/\s+/)[0];
+  return JOB_ICON[k] ? CLASS_ICON_DIR+JOB_ICON[k] : null;
+}
+// ไอคอนตามสาย/เทียร์ของ Skill Tree Simulator (ดัชนีตาม SKILLS)
+const LINE_ICONS = [
+  ["warrior","knight","paladin","paladin"],
+  ["warrior","gladiator","myrmidon","myrmidon"],
+  ["magician","acolyte","oracle","oracle"],
+  ["magician","battlemage","warmage","warmage"],
+  ["archer","hunter","trapper","trapper"],
+  ["archer","ranger","ballista","ballista"],
+  ["thief","jester","harlequin","harlequin"],
+  ["thief","assassin","ninja","ninja"],
+];
+function lineIcon(li,ti){const a=LINE_ICONS[li]||[];return CLASS_ICON_DIR+(a[ti]||a[0]||"warrior")+".gif"}
+// ไอคอนตัวแทน 4 อาชีพหลัก (ใช้ในการ์ด/ปุ่ม)
 const CLASS_EMBLEM = {
-  warrior:  "assets/icons/war/swordmastery.png",
-  magician: "assets/icons/mag/MagiciansWisdom.png",
-  archer:   "assets/icons/arc/ArchersPrompt.png",
-  thief:    "assets/icons/thi/ThiefsAgility.png",
+  warrior:  CLASS_ICON_DIR+"warrior.gif",
+  magician: CLASS_ICON_DIR+"magician.gif",
+  archer:   CLASS_ICON_DIR+"archer.gif",
+  thief:    CLASS_ICON_DIR+"thief.gif",
 };
 
 /* ---- แหล่งข้อมูลอ้างอิง ---- */

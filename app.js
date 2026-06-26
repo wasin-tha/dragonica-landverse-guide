@@ -110,7 +110,9 @@ function renderClassPanel(){
   const emblem=CLASS_EMBLEM[activeClass];
   const tree = c.tree.map(t=>`
     <div class="tier"><div class="lvl">Lv.${t.lv}</div>
-      ${t.jobs.map(j=>`<div class="job"><b>${j.name}</b><span>${j.note}</span></div>`).join('')}
+      ${t.jobs.map(j=>{const ji=jobIcon(j.name);
+        return `<div class="job">${ji?`<img class="jicon" src="${ji}" alt="" loading="lazy">`:''}
+          <div><b>${j.name}</b><span>${j.note}</span></div></div>`;}).join('')}
     </div>`).join('');
 
   const builds = c.builds.map(b=>`
@@ -244,12 +246,13 @@ function renderTree(){
         </div>
         <div class="branch-row" id="branchSel">
           ${branchLines.map(o=>`<button class="branch-btn ${o.i===simLine?'on':''}" data-line="${o.i}" style="--cc:${cc}">
-            <b>${esc(SKILLS[o.i].tiers[1].job)}</b><small>${esc(branchDesc(o.i))}</small></button>`).join('')}
+            <img src="${lineIcon(o.i,1)}" alt="">
+            <div><b>${esc(SKILLS[o.i].tiers[1].job)}</b><small>${esc(branchDesc(o.i))}</small></div></button>`).join('')}
         </div>
       </div>
       <div class="tree-bar">
         <div class="tier-tabs" id="tierTabs">
-          ${line.tiers.map((t,i)=>`<button data-t="${i}" class="${i===simTier?'on':''}">${esc(t.job)}<small>Lv.${t.lv}</small></button>`).join('')}
+          ${line.tiers.map((t,i)=>`<button data-t="${i}" class="${i===simTier?'on':''}"><img src="${lineIcon(simLine,i)}" alt=""><span>${esc(t.job)}<small>Lv.${t.lv}</small></span></button>`).join('')}
         </div>
         <div class="sp-badge"><div><div class="nn">${used}</div><small>SP เทียร์นี้</small></div>
           <div style="width:1px;height:30px;background:var(--border)"></div>
