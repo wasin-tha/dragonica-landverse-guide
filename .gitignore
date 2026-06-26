@@ -1,2 +1,10 @@
 node_modules/
 *.log
+
+# build-only scripts + intermediate artifacts (ไม่ deploy)
+parse_wp.py
+dl_imgs.py
+gen_data.py
+extract.js
+wp.txt
+wp_classes.json

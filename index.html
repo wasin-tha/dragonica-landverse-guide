@@ -3,313 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dragonica Landverse — คู่มือเล่นเกม (ภาษาไทย)</title>
-<meta name="description" content="คู่มือ Dragonica Landverse ภาษาไทย: สายอาชีพทั้งหมด สกิลเด่น แนวทางบิลด์ และตัวจำลองอัพสกิล (Skill Build Simulator)" />
+<title>Dragonica Landverse — คู่มือเล่นเกม (ภาษาไทย) ฉบับ Whitepaper ทางการ</title>
+<meta name="description" content="คู่มือ Dragonica Landverse ภาษาไทย: 20 อาชีพ สกิลทางการ ตัวจำลองอัพสกิล ระบบเสริมแกร่ง โซล การ์ด ดันเจี้ยน กิลด์ สัตว์เลี้ยง และสตามิน่า Dragon Core" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
-<style>
-:root{
-  --font: 'Noto Sans Thai', sans-serif;
-  /* Noto Sans Thai เป็น fallback ให้อักษรไทยที่อยู่ในข้อความฟอนต์ mono ใช้ฟอนต์ถูกต้อง */
-  --mono: 'JetBrains Mono', 'Noto Sans Thai', monospace;
-  --bg: #060914;
-  --bg2: #0c1322;
-  --panel: #111b2e;
-  --panel2: #16233b;
-  --border: #233248;
-  --text: #eef3fb;
-  --muted: #9fb0c8;
-  --dim: #6c7e98;
-  --gold: #f5b942;
-  --gold2: #ffd277;
-  --green: #22c55e;
-  --red: #ef4444;
-  --purple: #a855f7;
-  --blue: #38bdf8;
-  --shadow: 0 18px 50px -18px rgba(0,0,0,.7);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-/* form control ทุกชนิดสืบทอดฟอนต์ Noto Sans Thai (กัน OS แทนที่เป็นฟอนต์ระบบ) */
-button,input,select,textarea,option{font-family:var(--font)}
-html{scroll-behavior:smooth}
-body{
-  font-family:var(--font);background:var(--bg);color:var(--text);
-  line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;
-  background-image:
-    radial-gradient(900px 500px at 85% -5%, rgba(245,185,66,.10), transparent 60%),
-    radial-gradient(800px 500px at 5% 5%, rgba(168,85,247,.12), transparent 55%),
-    radial-gradient(700px 600px at 50% 110%, rgba(56,189,248,.08), transparent 60%);
-}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
-a{color:inherit;text-decoration:none}
-section{padding:64px 0;position:relative}
-.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:700}
-h2.title{font-size:clamp(1.6rem,3.6vw,2.5rem);font-weight:800;margin:.4rem 0 .5rem;letter-spacing:-.01em}
-.lead{color:var(--muted);max-width:720px}
-.grad{background:linear-gradient(100deg,var(--gold2),var(--gold) 55%,#ff8a3d);-webkit-background-clip:text;background-clip:text;color:transparent}
-
-/* ---------- NAV ---------- */
-header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
-  background:rgba(6,9,20,.78);border-bottom:1px solid var(--border)}
-.nav .wrap{display:flex;align-items:center;gap:18px;height:62px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.02em}
-.brand .logo{width:30px;height:30px;display:grid;place-items:center;border-radius:8px;
-  background:linear-gradient(135deg,var(--gold),#ff7a3d);color:#1a1206;box-shadow:0 4px 14px rgba(245,185,66,.4)}
-.navlinks{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
-.navlinks a{font-size:.86rem;color:var(--muted);padding:8px 12px;border-radius:8px;transition:.2s;cursor:pointer}
-.navlinks a:hover{color:var(--text);background:var(--panel)}
-.menu-btn{margin-left:auto;display:none;background:var(--panel);border:1px solid var(--border);color:var(--text);
-  width:42px;height:42px;border-radius:10px;cursor:pointer}
-@media(max-width:860px){.navlinks{display:none}.menu-btn{display:block}
-  .navlinks.open{display:flex;position:absolute;top:62px;left:0;right:0;flex-direction:column;
-  background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 20px;gap:2px}}
-
-/* ---------- HERO ---------- */
-.hero{padding:84px 0 56px;text-align:center;position:relative}
-.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.72rem;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);
-  border:1px solid rgba(245,185,66,.35);background:rgba(245,185,66,.08);
-  padding:7px 14px;border-radius:999px;margin-bottom:22px}
-.hero h1{font-size:clamp(2.3rem,6.5vw,4.4rem);font-weight:800;line-height:1.05;letter-spacing:-.02em}
-.hero p.sub{color:var(--muted);font-size:clamp(1rem,2.2vw,1.2rem);max-width:680px;margin:18px auto 0}
-.hero .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
-.btn{font-family:var(--font);font-weight:600;font-size:.95rem;padding:13px 24px;border-radius:12px;
-  cursor:pointer;border:1px solid transparent;transition:.22s;display:inline-flex;align-items:center;gap:9px}
-.btn-primary{background:linear-gradient(135deg,var(--gold),#ff7a3d);color:#1a1206;box-shadow:0 10px 30px -8px rgba(245,185,66,.55)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 36px -8px rgba(245,185,66,.7)}
-.btn-ghost{background:var(--panel);border-color:var(--border);color:var(--text)}
-.btn-ghost:hover{background:var(--panel2);border-color:var(--gold)}
-.heroStats{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:46px}
-.heroStats div{text-align:center}
-.heroStats b{display:block;font-family:var(--mono);font-size:1.7rem;color:var(--gold2);font-weight:700}
-.heroStats span{font-size:.8rem;color:var(--dim)}
-
-/* ---------- FEATURE CARDS ---------- */
-.grid{display:grid;gap:18px}
-.cols-3{grid-template-columns:repeat(3,1fr)}
-.cols-2{grid-template-columns:repeat(2,1fr)}
-.cols-4{grid-template-columns:repeat(4,1fr)}
-@media(max-width:900px){.cols-3,.cols-4{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.cols-2,.cols-3,.cols-4{grid-template-columns:1fr}}
-.card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--border);
-  border-radius:16px;padding:22px;transition:.25s;position:relative;overflow:hidden}
-.card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow)}
-.card .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:14px;
-  background:rgba(245,185,66,.12);color:var(--gold2);border:1px solid rgba(245,185,66,.25)}
-.card h3{font-size:1.06rem;font-weight:700;margin-bottom:6px}
-.card p{color:var(--muted);font-size:.9rem}
-.ic svg{width:22px;height:22px}
-
-/* ---------- STAT PILLS ---------- */
-.stat-row{display:flex;gap:14px;align-items:flex-start;padding:16px;border:1px solid var(--border);
-  border-radius:14px;background:var(--panel)}
-.stat-row .tag{font-family:var(--mono);font-weight:700;font-size:.85rem;padding:7px 11px;border-radius:9px;
-  background:rgba(56,189,248,.12);color:var(--blue);border:1px solid rgba(56,189,248,.3);white-space:nowrap}
-
-/* ---------- CLASS SELECTOR ---------- */
-.class-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px}
-@media(max-width:700px){.class-tabs{grid-template-columns:repeat(2,1fr)}}
-.ctab{cursor:pointer;border:1px solid var(--border);background:var(--panel);border-radius:14px;
-  padding:18px 14px;text-align:center;transition:.2s}
-.ctab:hover{transform:translateY(-2px)}
-.ctab.active{border-color:var(--cc);box-shadow:0 0 0 1px var(--cc),0 14px 30px -12px var(--cc)}
-.ctab .cic{width:48px;height:48px;border-radius:12px;margin:0 auto 10px;display:grid;place-items:center;
-  background:color-mix(in srgb,var(--cc) 16%,transparent);color:var(--cc);border:1px solid color-mix(in srgb,var(--cc) 40%,transparent)}
-.ctab .cic svg{width:26px;height:26px}
-.ctab b{display:block;font-size:1.02rem}
-.ctab span{font-size:.78rem;color:var(--dim)}
-
-.class-panel{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--border);
-  border-radius:18px;padding:26px;border-top:3px solid var(--cc)}
-.class-head{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
-.class-head .big{width:58px;height:58px;border-radius:14px;display:grid;place-items:center;
-  background:color-mix(in srgb,var(--cc) 16%,transparent);color:var(--cc);border:1px solid color-mix(in srgb,var(--cc) 40%,transparent)}
-.class-head .big svg{width:32px;height:32px}
-.class-head h3{font-size:1.5rem;font-weight:800}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px}
-.chip{font-size:.78rem;color:var(--muted);background:var(--bg);border:1px solid var(--border);padding:5px 11px;border-radius:999px}
-.chip b{color:var(--text);font-weight:600}
-
-/* ---- JOB TREE ---- */
-.tree{display:flex;gap:8px;overflow-x:auto;padding:18px 2px;margin-top:14px}
-.tier{min-width:150px;flex:1}
-.tier .lvl{font-family:var(--mono);font-size:.72rem;color:var(--cc);text-align:center;margin-bottom:8px;letter-spacing:.1em}
-.job{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:11px;margin-bottom:8px;font-size:.85rem;
-  display:flex;gap:9px;align-items:flex-start}
-.jicon{width:36px;height:36px;border-radius:8px;flex:none;image-rendering:auto}
-.job b{display:block;color:var(--text);font-weight:700;margin-bottom:2px}
-.job span{color:var(--dim);font-size:.76rem;line-height:1.5}
-.tier:not(:last-child){position:relative}
-
-/* ---- BUILD CARDS ---- */
-.build{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:18px;margin-top:16px}
-.build h4{font-size:1.05rem;font-weight:700;color:var(--gold2)}
-.build .sm{color:var(--muted);font-size:.88rem;margin:6px 0 12px}
-.skill-list{display:grid;gap:8px}
-.skill-line{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);
-  border-radius:10px;background:var(--panel)}
-.skill-line .lv{font-family:var(--mono);font-size:.74rem;font-weight:700;padding:4px 8px;border-radius:7px;white-space:nowrap;
-  background:color-mix(in srgb,var(--cc) 16%,transparent);color:var(--cc);border:1px solid color-mix(in srgb,var(--cc) 35%,transparent);height:fit-content}
-.skill-line b{font-weight:600;font-size:.92rem}
-.skill-line p{color:var(--muted);font-size:.83rem;margin-top:2px}
-
-/* ---------- SIMULATOR ---------- */
-.sim{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--border);border-radius:18px;padding:24px}
-.sim-top{display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:20px}
-.seg{display:flex;gap:6px;flex-wrap:wrap}
-.seg button{font-family:var(--font);cursor:pointer;border:1px solid var(--border);background:var(--bg);color:var(--muted);
-  padding:8px 14px;border-radius:10px;font-size:.86rem;font-weight:600;transition:.18s}
-.seg button:hover{color:var(--text)}
-.seg button.on{background:var(--cc,var(--gold));color:#0a0e18;border-color:transparent}
-.sp-box{display:flex;align-items:center;gap:14px;background:var(--bg);border:1px solid var(--border);
-  border-radius:12px;padding:10px 18px}
-.sp-box .n{font-family:var(--mono);font-size:1.5rem;font-weight:700;color:var(--gold2);line-height:1}
-.sp-box small{color:var(--dim);font-size:.74rem;display:block}
-.lvl-ctrl{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--muted)}
-.lvl-ctrl input{width:140px;accent-color:var(--gold)}
-
-.sim-skills{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media(max-width:680px){.sim-skills{grid-template-columns:1fr}.sim-top{flex-direction:column;align-items:stretch}}
-.sk{background:var(--bg);border:1px solid var(--border);border-radius:13px;padding:14px;transition:.2s}
-.sk.maxed{border-color:var(--gold);box-shadow:0 0 0 1px rgba(245,185,66,.4)}
-.sk .skh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.sk b{font-weight:600;font-size:.95rem}
-.sk .rec{font-size:.7rem;color:var(--green);font-family:var(--mono)}
-.sk p{color:var(--dim);font-size:.8rem;margin:6px 0 12px;min-height:32px}
-.sk-ctrl{display:flex;align-items:center;gap:10px}
-.sk-ctrl button{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:var(--panel);
-  color:var(--text);font-size:1.2rem;font-weight:700;cursor:pointer;transition:.15s;display:grid;place-items:center}
-.sk-ctrl button:hover:not(:disabled){background:var(--gold);color:#0a0e18;border-color:transparent}
-.sk-ctrl button:disabled{opacity:.3;cursor:not-allowed}
-.bar{flex:1;height:8px;background:var(--panel);border-radius:99px;overflow:hidden;border:1px solid var(--border)}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#ff7a3d);transition:.3s;border-radius:99px}
-.sk-ctrl .cnt{font-family:var(--mono);font-size:.86rem;font-weight:700;min-width:46px;text-align:center}
-.sim-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-.btn-sm{font-size:.83rem;padding:9px 16px}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);background:var(--gold);
-  color:#0a0e18;padding:12px 22px;border-radius:12px;font-weight:600;box-shadow:var(--shadow);transition:.3s;z-index:99}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-/* ---------- LISTS / FAQ ---------- */
-.tip{display:flex;gap:14px;padding:16px;border:1px solid var(--border);border-radius:13px;background:var(--panel);transition:.2s}
-.tip:hover{border-color:var(--gold)}
-.tip .num{font-family:var(--mono);font-weight:700;color:var(--gold);font-size:1.1rem;min-width:26px}
-.tip b{display:block;margin-bottom:3px}
-.tip p{color:var(--muted);font-size:.88rem}
-.src{display:flex;flex-wrap:wrap;gap:10px}
-.src a{font-size:.84rem;color:var(--muted);border:1px solid var(--border);background:var(--panel);
-  padding:8px 14px;border-radius:10px;transition:.2s}
-.src a:hover{color:var(--gold2);border-color:var(--gold)}
-.note{font-size:.8rem;color:var(--dim);border-left:2px solid var(--gold);padding-left:12px;margin-top:18px}
-/* ---------- NEWS ---------- */
-.news-item{display:grid;grid-template-columns:380px 1fr;gap:24px;background:linear-gradient(180deg,var(--panel),var(--bg2));
-  border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:20px}
-.news-item .pic{position:relative;min-height:200px;background:#0a1120}
-.news-item .pic img{width:100%;height:100%;object-fit:cover;display:block}
-.news-item .pic .tg{position:absolute;top:12px;left:12px;font-family:var(--mono);font-size:.7rem;font-weight:700;
-  background:var(--gold);color:#1a1206;padding:5px 11px;border-radius:8px;letter-spacing:.05em}
-.news-item .body{padding:22px 24px 24px 0}
-.news-item .dt{font-family:var(--mono);font-size:.74rem;color:var(--dim)}
-.news-item h3{font-size:1.25rem;font-weight:800;margin:4px 0 8px}
-.news-item .intro{color:var(--muted);font-size:.92rem;margin-bottom:14px}
-.nblocks{display:grid;gap:8px}
-.nblock{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:9px;padding:10px 13px}
-.nblock b{font-size:.88rem;color:var(--gold2)}
-.nblock p{font-size:.84rem;color:var(--muted);margin-top:2px}
-.nlist{margin-top:8px;display:grid;gap:4px}
-.nrow{display:flex;justify-content:space-between;align-items:baseline;gap:14px;font-size:.84rem;
-  padding:6px 11px;background:var(--panel);border:1px solid var(--border);border-radius:8px}
-.nrow span:first-child{color:var(--muted)}
-.nrow .v{font-family:var(--mono);font-weight:700;color:var(--gold2);white-space:nowrap}
-.nrow .v small{color:var(--dim);font-weight:400;font-size:.72rem}
-.news-item .more{display:inline-flex;margin-top:14px;font-size:.84rem;color:var(--gold);font-weight:600}
-@media(max-width:780px){.news-item{grid-template-columns:1fr}.news-item .pic{min-height:180px}
-  .news-item .body{padding:0 20px 22px}}
-
-/* ---------- emblem on class cards / build skills ---------- */
-.emblem{width:40px;height:40px;border-radius:9px;image-rendering:auto;border:1px solid var(--border);background:#0a1120;flex:none}
-.skill-line .emblem{width:38px;height:38px}
-
-/* ---------- SKILL TREE SIMULATOR ---------- */
-.tree-wrap{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--border);border-radius:18px;padding:20px}
-.tree-bar{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:14px}
-/* custom class/branch picker (แทน native select) */
-.picker{margin-bottom:14px;display:grid;gap:10px}
-.base-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.base-btn{cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;padding:10px 8px;
-  border:1px solid var(--border);background:var(--bg);border-radius:12px;transition:.18s;color:var(--muted);font-weight:700;font-size:.92rem}
-.base-btn img{width:26px;height:26px;border-radius:7px;flex:none}
-.base-btn:hover{color:var(--text);border-color:var(--cc)}
-.base-btn.on{color:#fff;border-color:var(--cc);background:color-mix(in srgb,var(--cc) 18%,transparent);box-shadow:0 0 0 1px var(--cc)}
-.branch-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.branch-btn{cursor:pointer;text-align:left;padding:11px 16px;border:1px solid var(--border);background:var(--bg);
-  border-radius:12px;transition:.18s;display:flex;flex-direction:column;gap:1px}
-.branch-btn b{color:var(--text);font-size:1rem;font-weight:700}
-.branch-btn small{color:var(--dim);font-size:.78rem}
-.branch-btn:hover{border-color:var(--cc)}
-.branch-btn.on{border-color:var(--cc);background:color-mix(in srgb,var(--cc) 16%,transparent)}
-.branch-btn.on b{color:var(--cc)}
-@media(max-width:620px){.base-row{grid-template-columns:repeat(2,1fr)}.base-btn span{font-size:.86rem}}
-.tier-tabs{display:flex;gap:6px;flex-wrap:wrap}
-.tier-tabs button{font-family:var(--font);cursor:pointer;border:1px solid var(--border);background:var(--bg);
-  color:var(--muted);padding:8px 14px;border-radius:10px;font-size:.84rem;font-weight:600;transition:.18s;display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.2}
-.tier-tabs button img{width:26px;height:26px;border-radius:6px;flex:none}
-.tier-tabs button{flex-direction:row;align-items:center;gap:8px}
-.tier-tabs button span{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
-.tier-tabs button small{font-family:var(--mono);font-size:.62rem;opacity:.7}
-.branch-btn img{width:34px;height:34px;border-radius:8px;flex:none}
-.branch-btn{flex-direction:row;align-items:center;gap:11px}
-.branch-btn>div{display:flex;flex-direction:column;gap:1px}
-.tier-tabs button:hover{color:var(--text)}
-.tier-tabs button.on{background:var(--cc,var(--gold));color:#0a0e18;border-color:transparent}
-.tier-tabs button.on small{opacity:.85}
-.sp-badge{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:8px 16px}
-.sp-badge .nn{font-family:var(--mono);font-size:1.35rem;font-weight:700;color:var(--gold2);line-height:1}
-.sp-badge small{color:var(--dim);font-size:.7rem;display:block}
-
-.canvas-scroll{overflow-x:auto;padding:8px 4px 14px}
-.canvas{position:relative;margin:0 auto}
-.canvas svg.links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
-.node{position:absolute;z-index:2;width:var(--ns);text-align:center}
-.node .ibox{position:relative;width:var(--ns);height:var(--ns);border-radius:11px;overflow:visible;cursor:pointer;
-  border:2px solid var(--border);background:#0a1120;transition:.15s;box-shadow:0 4px 12px rgba(0,0,0,.4)}
-.node .ibox img{width:100%;height:100%;border-radius:9px;display:block;image-rendering:auto}
-.node.has .ibox{border-color:var(--cc)}
-.node.maxed .ibox{border-color:var(--gold);box-shadow:0 0 0 2px rgba(245,185,66,.45),0 4px 12px rgba(0,0,0,.5)}
-.node.locked .ibox{filter:grayscale(.85) brightness(.55)}
-.node .lvtag{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);font-family:var(--mono);
-  font-size:.64rem;font-weight:700;background:#0a0e18;border:1px solid var(--cc);color:#fff;padding:1px 6px;border-radius:6px;white-space:nowrap;z-index:3}
-.node.maxed .lvtag{border-color:var(--gold);background:var(--gold);color:#1a1206}
-.node .pm{position:absolute;top:-9px;width:20px;height:20px;border-radius:50%;border:none;cursor:pointer;
-  font-size:.95rem;font-weight:800;line-height:1;display:none;z-index:4;color:#fff}
-.node .pm.plus{right:-8px;background:var(--green)}
-.node .pm.minus{left:-8px;background:var(--red)}
-.node:hover .pm{display:block}
-.node .pm:disabled{opacity:.3;cursor:not-allowed}
-.node .nm{font-size:.6rem;color:var(--muted);margin-top:11px;line-height:1.25;max-width:calc(var(--ns) + 22px);margin-left:-11px}
-
-/* tooltip */
-.tip-pop{position:fixed;z-index:80;max-width:300px;background:#0a1120;border:1px solid var(--cc,var(--gold));
-  border-radius:12px;padding:13px 15px;box-shadow:0 18px 50px -10px rgba(0,0,0,.8);pointer-events:none;
-  opacity:0;transition:opacity .12s;font-size:.82rem}
-.tip-pop.show{opacity:1}
-.tip-pop h5{font-size:.96rem;font-weight:700;color:var(--gold2);margin-bottom:3px}
-.tip-pop .ty{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;color:var(--cc);margin-bottom:7px}
-.tip-pop .row{display:flex;justify-content:space-between;gap:14px;font-size:.78rem;padding:2px 0;border-top:1px solid var(--border)}
-.tip-pop .row span:first-child{color:var(--dim)}
-.tip-pop .row span:last-child{font-family:var(--mono);color:var(--text)}
-.tip-pop .ds{color:var(--muted);font-size:.79rem;margin-top:8px;line-height:1.5}
-.tip-pop .pre{color:var(--red);font-size:.74rem;margin-top:7px}
-.tree-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:.76rem;color:var(--dim)}
-.tree-legend span{display:flex;align-items:center;gap:6px}
-.tree-legend i{width:13px;height:13px;border-radius:4px;border:2px solid}
-
-footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color:var(--dim);font-size:.84rem}
-.reveal{opacity:0;transform:translateY(22px);transition:.6s cubic-bezier(.2,.7,.3,1)}
-.reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{scroll-behavior:auto}}
-</style>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -322,12 +21,10 @@ footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color
     <nav class="navlinks" id="navlinks">
       <a href="#overview">ภาพรวม</a>
       <a href="#news">ข่าวสาร</a>
-      <a href="#features">Landverse</a>
-      <a href="#start">เริ่มเล่น</a>
       <a href="#classes">อาชีพ</a>
       <a href="#sim">จำลองสกิล</a>
-      <a href="#tips">เคล็ดลับ</a>
-      <a href="#sources">แหล่งอ้างอิง</a>
+      <a href="#systems">ระบบเกม</a>
+      <a href="#sources">อ้างอิง</a>
     </nav>
   </div>
 </header>
@@ -335,13 +32,13 @@ footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color
 <!-- HERO -->
 <div class="hero">
   <div class="wrap">
-    <span class="badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> เซิร์ฟเวอร์ใหม่ • ผูกระบบ NFT Marketplace</span>
-    <h1>คู่มือ <span class="grad">Dragonica Landverse</span><br>ฉบับเล่นเป็น เข้าใจง่าย</h1>
-    <p class="sub">รวมทุกอย่างที่ต้องรู้ก่อนลุย: สายอาชีพทั้งหมด สกิลเด่นของแต่ละสาย แนวทางบิลด์ PVE และ <b style="color:var(--gold2)">ตัวจำลองอัพสกิล</b> ที่กดลองจัดบิลด์เองได้</p>
+    <span class="badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> อ้างอิง Whitepaper ทางการ • drlv.gitbook.io</span>
+    <h1>คู่มือ <span class="grad">Dragonica Landverse</span><br>ครบ จบ ในที่เดียว</h1>
+    <p class="sub">รวมข้อมูลทางการ: <b style="color:var(--gold2)">20 อาชีพ</b> พร้อมสกิลและรูปจริงในเกม, ตัวจำลองอัพสกิล, ระบบเสริมแกร่ง/โซล/การ์ด, ดันเจี้ยน, กิลด์, สัตว์เลี้ยง และระบบสตามิน่า Dragon Core</p>
     <div class="cta">
-      <a class="btn btn-primary" href="#classes">ดูสายอาชีพ
+      <a class="btn btn-primary" href="#classes">ดู 20 อาชีพ
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="btn btn-ghost" href="#sim">เปิดตัวจำลองสกิล</a>
+      <a class="btn btn-ghost" href="#sim">ตัวจำลองสกิล</a>
       <a class="btn btn-ghost" href="https://drlv.maxion.gg/" target="_blank" rel="noopener">เว็บเกมหลัก ↗</a>
     </div>
     <div class="heroStats" id="heroStats"></div>
@@ -353,37 +50,20 @@ footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color
   <div class="wrap reveal">
     <span class="eyebrow">ภาพรวมเกม</span>
     <h2 class="title">Dragonica Landverse คือเกมอะไร?</h2>
-    <p class="lead">เกมแอ็กชัน MMORPG มุมมองข้าง (2.5D side-scroll) ตะลุยด่านเน้นต่อ <b>คอมโบลอยศัตรู</b> สนุก เล่นง่าย แต่ลึกในเรื่องบิลด์ เวอร์ชัน Landverse เพิ่มระบบเศรษฐกิจ NFT ให้เปลี่ยนเวลาเล่นเป็นรายได้</p>
+    <p class="lead">เกมแอ็กชัน MMORPG มุมมองข้าง (Side-scrolling 3D) สไตล์อาเขต เน้น<b>คอมโบกลางอากาศ</b> ต้นฉบับเปิดปี 2009 โดย Gravity — เวอร์ชัน Landverse เพิ่มระบบเศรษฐกิจบล็อกเชนให้เป็นเจ้าของสินทรัพย์ดิจิทัลและสร้างรายได้จริง</p>
     <div class="grid cols-3" style="margin-top:24px" id="overviewCards"></div>
+    <div class="grid cols-3" style="margin-top:18px" id="featureGrid"></div>
+    <div class="grid cols-2" style="margin-top:18px" id="statGrid"></div>
   </div>
 </section>
 
 <!-- NEWS -->
-<section id="news">
+<section id="news" style="background:linear-gradient(180deg,transparent,rgba(12,19,34,.45),transparent)">
   <div class="wrap reveal">
     <span class="eyebrow">ข่าวสาร & อัปเดต</span>
-    <h2 class="title">ประกาศสำคัญจากทีมงาน <span class="grad">Landverse</span></h2>
-    <p class="lead">สรุปข่าวจาก news.drlv.maxion.gg แบบละเอียด — เรื่องที่ต้องรู้ก่อนเริ่มเล่น (Pre-Sale, ระบบสตามิน่า, กิจกรรม CBT)</p>
+    <h2 class="title">ประกาศสำคัญจาก <span class="grad">Landverse</span></h2>
+    <p class="lead">สรุปข่าวจาก news.drlv.maxion.gg — Pre-Sale, ระบบสตามิน่า, กิจกรรม CBT</p>
     <div id="newsGrid" style="margin-top:24px"></div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section id="features">
-  <div class="wrap reveal">
-    <span class="eyebrow">จุดเด่นเวอร์ชัน Landverse</span>
-    <h2 class="title">อะไรที่ทำให้ <span class="grad">Landverse</span> ต่างออกไป</h2>
-    <div class="grid cols-3" style="margin-top:24px" id="featureGrid"></div>
-  </div>
-</section>
-
-<!-- START / STATS -->
-<section id="start" style="background:linear-gradient(180deg,transparent,rgba(12,19,34,.5),transparent)">
-  <div class="wrap reveal">
-    <span class="eyebrow">เริ่มต้นเล่น</span>
-    <h2 class="title">ระบบสเตตัส 4 ตัวที่ต้องรู้</h2>
-    <p class="lead">การลงสเตตัสและเลือกสายอาชีพคือหัวใจของตัวละคร เลือกให้ตรงสไตล์ตั้งแต่ต้น</p>
-    <div class="grid cols-2" style="margin-top:22px" id="statGrid"></div>
   </div>
 </section>
 
@@ -391,8 +71,8 @@ footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color
 <section id="classes">
   <div class="wrap reveal">
     <span class="eyebrow">สายอาชีพ</span>
-    <h2 class="title">4 อาชีพหลัก & สายอาชีพเต็ม</h2>
-    <p class="lead">เลื่อนอาชีพครั้งแรกที่ <b>Lv.20</b>, ครั้งที่สองที่ <b>Lv.40</b>, ครั้งที่สามที่ <b>Lv.60</b> — กดเลือกอาชีพเพื่อดูแผนผังสายและแนวทางบิลด์</p>
+    <h2 class="title">4 อาชีพหลัก → <span class="grad">20 อาชีพ</span></h2>
+    <p class="lead">เลื่อนอาชีพ 2 ที่ <b>Lv.20</b> และอาชีพ 3 ที่ <b>Lv.40</b> — กดเลือกอาชีพเพื่อดูอาร์ตทางการ จุดเด่น และแผนผังสายอาชีพ (3 เทียร์)</p>
     <div class="class-tabs" id="classTabs" style="margin-top:24px"></div>
     <div id="classPanel"></div>
   </div>
@@ -402,43 +82,46 @@ footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color
 <section id="sim" style="background:linear-gradient(180deg,transparent,rgba(12,19,34,.6),transparent)">
   <div class="wrap reveal">
     <span class="eyebrow">เครื่องมือ</span>
-    <h2 class="title">ตัวจำลอง <span class="grad">Skill Tree</span> — อัพสกิลเหมือนในเกม</h2>
-    <p class="lead">แผนผังสกิลจริงพร้อมไอคอนในเกม เลือกสายอาชีพและเทียร์ (อาชีพพื้นฐาน → 1 → 2 → 3) กดไอคอน <b>+ / −</b> เพื่ออัพสกิล ระบบเช็กสกิลที่ต้องปลดล็อกก่อน (prerequisite) และคำนวณ SP ที่ใช้ให้ — ชี้ที่สกิลเพื่อดูค่าพลัง/MP/คูลดาวน์</p>
+    <h2 class="title">ตัวจำลอง <span class="grad">Skill Tree</span> — อัพสกิลทางการ</h2>
+    <p class="lead">สกิลและไอคอนจริงจาก Whitepaper เลือกอาชีพ/สาย/เทียร์ กดไอคอน <b>+ / −</b> เพื่ออัพ ระบบเช็กสกิลที่ต้องปลดก่อน (prerequisite) — ชี้/แตะที่สกิลเพื่อดูค่าพลัง/MP/คูลดาวน์/เลเวลที่ใช้ได้</p>
     <div id="tree" style="margin-top:22px"></div>
-    <p class="note">หมายเหตุ: ข้อมูลสกิล/ไอคอน/ตำแหน่งอ้างอิงชุดข้อมูล Dragon Saga (Dragonica สากล) จาก irowiki dssim2 — ใน Landverse ชื่อบางคลาส/สกิลอาจแปลไทยหรือต่างเล็กน้อย แต่โครงสร้างสกิลเหมือนกัน ใช้วางแผนบิลด์ได้</p>
+    <p class="note">ข้อมูลสกิล รูปไอคอน และค่าพลังทั้งหมด อ้างอิง Whitepaper ทางการของ Dragonica Landverse — เพดานสกิลปกติ Lv.5 ขยายได้ถึง Lv.10 ด้วยระบบการ์ด (ดูหัวข้อระบบเกม)</p>
   </div>
 </section>
 
-<!-- TIPS -->
-<section id="tips">
+<!-- SYSTEMS -->
+<section id="systems">
   <div class="wrap reveal">
-    <span class="eyebrow">เคล็ดลับมือใหม่</span>
-    <h2 class="title">เล่นให้ปังตั้งแต่เริ่ม</h2>
-    <div class="grid cols-2" style="margin-top:22px" id="tipGrid"></div>
+    <span class="eyebrow">ระบบเกม & ข้อมูล</span>
+    <h2 class="title">ระบบทั้งหมดในเกม</h2>
+    <p class="lead">เสริมแกร่งอุปกรณ์ โซล การ์ด การต่อสู้ ดันเจี้ยน กิลด์ สังคม และการเริ่มเล่น — เรียบเรียงจาก Whitepaper ทางการ</p>
+    <div class="sys-chips" id="sysChips" style="margin-top:18px"></div>
+    <div id="systemsWrap" style="margin-top:8px"></div>
   </div>
 </section>
 
 <!-- SOURCES -->
-<section id="sources">
+<section id="sources" style="background:linear-gradient(180deg,transparent,rgba(12,19,34,.45),transparent)">
   <div class="wrap reveal">
     <span class="eyebrow">อ้างอิง</span>
-    <h2 class="title">แหล่งข้อมูลที่รวบรวมมา</h2>
-    <p class="lead">ข้อมูลเรียบเรียงจากเว็บทางการและคอมมูนิตี้ Dragonica / Dragon Saga หลายแหล่ง</p>
+    <h2 class="title">แหล่งข้อมูล</h2>
+    <p class="lead">ข้อมูลหลักจาก Whitepaper ทางการ และคอมมูนิตี้ Dragonica</p>
     <div class="src" style="margin-top:18px" id="srcList"></div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <p>สร้างเพื่อเป็นคู่มือเล่น <b style="color:var(--gold2)">Dragonica Landverse</b> · ไม่ใช่เว็บทางการ · ข้อมูลเพื่อการศึกษา</p>
-    <p style="margin-top:6px">เว็บเกมหลัก: <a href="https://drlv.maxion.gg/" target="_blank" rel="noopener" style="color:var(--gold)">drlv.maxion.gg ↗</a></p>
+    <p>คู่มือแฟนเมดเพื่อเล่น <b style="color:var(--gold2)">Dragonica Landverse</b> · ไม่ใช่เว็บทางการ · ข้อมูลเพื่อการศึกษา</p>
+    <p style="margin-top:6px">เว็บเกม: <a href="https://drlv.maxion.gg/" target="_blank" rel="noopener" style="color:var(--gold)">drlv.maxion.gg ↗</a> · Whitepaper: <a href="https://drlv.gitbook.io/dragonica-landverse-whitepaper" target="_blank" rel="noopener" style="color:var(--gold)">drlv.gitbook.io ↗</a></p>
   </div>
 </footer>
 
 <div class="toast" id="toast"></div>
 
 <script src="data.js"></script>
-<script src="skills-data.js"></script>
+<script src="classes-data.js"></script>
+<script src="systems-data.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -1,275 +1,208 @@
 /* ============================================================================
-   Dragonica Landverse Guide — ตัวเรนเดอร์ + Visual Skill Tree Simulator
-   ใช้ data.js (เนื้อหาเรียบเรียง) + skills-data.js (SKILLS = skill tree จริง)
+   Dragonica Landverse Guide — เรนเดอร์ (official whitepaper data)
+   data.js: GAME/FEATURES/STATS/TIPS/NEWS/SOURCES/CLASS_EMBLEM/jobIcon
+   classes-data.js: OFFICIAL (classes/bases/paths)  •  systems-data.js: SYSTEMS
    ========================================================================== */
 
 const ICONS = {
-  sword:'<path d="M14.5 3.5l6 6L9 21l-3 .5.5-3L18 6.5l-3.5-3z"/><path d="M3 21l4-4M14.5 9.5l-2-2"/>',
-  wand:'<path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8l1.4 1.4M17.8 6.2l1.4-1.4M5 21l9-9"/><circle cx="15" cy="9" r="3"/>',
-  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/>',
-  dagger:'<path d="M14 3l4 4-7 7-4 1 1-4 6-8zM4 20l4-4M11 11l2 2"/>',
   store:'<path d="M3 9l1.5-5h15L21 9M4 9v11h16V9M9 13h6"/><path d="M3 9a2.4 2.4 0 004.5 0 2.4 2.4 0 004.5 0 2.4 2.4 0 004.5 0 2.4 2.4 0 004.5 0"/>',
   battery:'<rect x="2" y="7" width="17" height="10" rx="2"/><path d="M22 11v2M6 10v4M10 10v4"/>',
   swords:'<path d="M14.5 3.5l6 6L9 21l-3 .5.5-3L18 6.5zM3 21l4-4M9.5 3.5l-6 6L15 21l3 .5-.5-3L6 6.5z"/>',
   shirt:'<path d="M16 3l4 2-2 4-2-1v11H8V8L6 9 4 5l4-2 2 2h4l2-2z"/>',
   gift:'<rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18M12 8v13M12 8S10 3 7.5 4 9 8 12 8zM12 8s2-5 4.5-4S15 8 12 8z"/>',
   forward:'<path d="M13 5l7 7-7 7M5 5l7 7-7 7"/>',
+  anvil:'<path d="M7 10h11a4 4 0 01-4 4h-1l1 4H7l1-4a4 4 0 01-1-4zM3 8h6v2H4zM9 18h6"/>',
+  gem:'<path d="M6 3h12l3 6-9 12L3 9zM3 9h18M9 3l-3 6 6 12 6-12-3-6"/>',
+  cards:'<rect x="3" y="6" width="12" height="15" rx="2"/><path d="M8 3h11a2 2 0 012 2v12"/>',
+  combo:'<path d="M13 2L4.5 13H11l-1 9 8.5-11H12z"/>',
+  map:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+  heart:'<path d="M12 20s-7-4.5-9.5-9C1 8 2.5 4.5 6 4.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 6.5C19 15.5 12 20 12 20z"/>',
+  wallet:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M17 14h.5"/>',
+  monitor:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  warning:'<path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',
+  danger:'<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/>',
+  check:'<path d="M5 12l5 5 9-11"/>',
 };
-function svg(name,cls){return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="${cls||''}">${ICONS[name]||''}</svg>`}
+function svg(n,cls){return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="${cls||''}">${ICONS[n]||''}</svg>`}
 const $=s=>document.querySelector(s);
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
-/* ---------- HERO STATS ---------- */
-$('#heroStats').innerHTML = [
-  ['4','อาชีพหลัก'],['8','สายอาชีพเต็ม'],['300+','สกิลพร้อมไอคอน'],['2.5D','แอ็กชันคอมโบ']
-].map(([n,l])=>`<div><b>${n}</b><span>${l}</span></div>`).join('');
+/* ---------- HERO / OVERVIEW / FEATURES / STATS / NEWS / SOURCES ---------- */
+$('#heroStats').innerHTML=[['20','อาชีพ'],['250+','สกิลทางการ'],['8','ดันเจี้ยน'],['Lv.20/40','เลื่อนอาชีพ']]
+  .map(([n,l])=>`<div><b>${n}</b><span>${l}</span></div>`).join('');
 
-/* ---------- OVERVIEW ---------- */
-$('#overviewCards').innerHTML = [
+$('#overviewCards').innerHTML=[
   ['ประเภทเกม', GAME.genre],
   ['ผู้ให้บริการ', GAME.publisher],
-  ['สไตล์การเล่น', 'ตะลุยด่านมุมมองข้าง เน้นต่อคอมโบลอยศัตรู (Juggle) เล่นเดี่ยวหรือปาร์ตี้ก็ได้'],
+  ['สไตล์การเล่น','ตะลุยด่านมุมมองข้าง เน้นคอมโบกลางอากาศ เล่นเดี่ยว/ปาร์ตี้'],
 ].map(([h,p])=>`<div class="card"><h3>${h}</h3><p>${p}</p></div>`).join('');
 
-/* ---------- NEWS ---------- */
-$('#newsGrid').innerHTML = NEWS.map(n=>`
-  <article class="news-item">
-    <div class="pic"><span class="tg">${n.tag}</span>
-      <img src="${n.img}" alt="${esc(n.title)}" loading="lazy"></div>
-    <div class="body">
-      <div class="dt">${n.date}</div>
-      <h3>${n.title}</h3>
-      <p class="intro">${n.intro}</p>
-      <div class="nblocks">
-        ${n.blocks.map(b=>`<div class="nblock"><b>${b.h}</b>${b.p?`<p>${b.p}</p>`:''}${
-          b.list?`<div class="nlist">${b.list.map(it=>`<div class="nrow"><span>${it.k}</span><span class="v">${it.v}${b.unit?` <small>${b.unit}</small>`:''}</span></div>`).join('')}</div>`:''
-        }</div>`).join('')}
-      </div>
-      <a class="more" href="${n.url}" target="_blank" rel="noopener">อ่านต้นฉบับ ↗</a>
-    </div>
-  </article>`).join('');
+$('#featureGrid').innerHTML=FEATURES.map(f=>`<div class="card"><div class="ic">${svg(f.icon)}</div><h3>${f.title}</h3><p>${f.desc}</p></div>`).join('');
+$('#statGrid').innerHTML=STATS.map(s=>`<div class="stat-row"><span class="tag">${s.key}</span><div><b>${s.name}</b><p style="color:var(--muted);font-size:.88rem;margin-top:2px">${s.desc}</p></div></div>`).join('');
 
-/* ---------- FEATURES ---------- */
-$('#featureGrid').innerHTML = FEATURES.map(f=>`
-  <div class="card"><div class="ic">${svg(f.icon)}</div><h3>${f.title}</h3><p>${f.desc}</p></div>`).join('');
+$('#newsGrid').innerHTML=NEWS.map(n=>`
+  <article class="news-item"><div class="pic"><span class="tg">${n.tag}</span><img src="${n.img}" alt="${esc(n.title)}" loading="lazy"></div>
+    <div class="body"><div class="dt">${n.date}</div><h3>${n.title}</h3><p class="intro">${n.intro}</p>
+      <div class="nblocks">${n.blocks.map(b=>`<div class="nblock"><b>${b.h}</b>${b.p?`<p>${b.p}</p>`:''}${
+        b.list?`<div class="nlist">${b.list.map(it=>`<div class="nrow"><span>${it.k}</span><span class="v">${it.v}${b.unit?` <small>${b.unit}</small>`:''}</span></div>`).join('')}</div>`:''}</div>`).join('')}</div>
+      <a class="more" href="${n.url}" target="_blank" rel="noopener">อ่านต้นฉบับ ↗</a></div></article>`).join('');
 
-/* ---------- STATS ---------- */
-$('#statGrid').innerHTML = STATS.map(s=>`
-  <div class="stat-row"><span class="tag">${s.key}</span>
-    <div><b>${s.name}</b><p style="color:var(--muted);font-size:.88rem;margin-top:2px">${s.desc}</p></div>
-  </div>`).join('');
-
-/* ---------- TIPS ---------- */
-$('#tipGrid').innerHTML = TIPS.map((t,i)=>`
-  <div class="tip"><span class="num">${String(i+1).padStart(2,'0')}</span>
-    <div><b>${t.t}</b><p>${t.d}</p></div></div>`).join('');
-
-/* ---------- SOURCES ---------- */
-$('#srcList').innerHTML = SOURCES.map(s=>`<a href="${s.u}" target="_blank" rel="noopener">${s.t} ↗</a>`).join('');
+$('#srcList').innerHTML=SOURCES.map(s=>`<a href="${s.u}" target="_blank" rel="noopener">${s.t} ↗</a>`).join('');
 
 /* ============================================================================
-   หาไอคอนจริงให้สกิลในบิลด์แนะนำ (จับคู่จากชื่อ -> SKILLS)
+   CLASS PANEL (official)
    ========================================================================== */
-function findIcon(baseId, skillName){
-  const lines = SKILLS.filter(l=>l.base===baseId);
-  const key = skillName.toLowerCase().replace(/\(.*?\)/g,'').replace(/[^a-z ]/g,'').trim();
-  const words = key.split(/\s+/).filter(w=>w.length>2);
-  let best=null, bestScore=0;
-  for(const l of lines) for(const t of l.tiers) for(const s of t.skills){
-    const sn=s.name.toLowerCase();
-    let score=0;
-    if(sn===key) score=100;
-    else words.forEach(w=>{ if(sn.includes(w)) score+=w.length; });
-    if(score>bestScore){bestScore=score;best=s.icon;}
-  }
-  return bestScore>=3?('assets/'+best):null;
-}
-
-/* ============================================================================
-   CLASS PANEL (การ์ดอาชีพ + แผนผัง + บิลด์แนะนำ พร้อมไอคอนจริง)
-   ========================================================================== */
-const classOrder=['warrior','magician','archer','thief'];
-let activeClass='warrior';
+let activeBase='warrior';
 
 function renderTabs(){
-  $('#classTabs').innerHTML = classOrder.map(id=>{
-    const c=CLASSES[id];
-    const em=CLASS_EMBLEM[id];
-    return `<div class="ctab ${id===activeClass?'active':''}" data-c="${id}" style="--cc:${c.color}" role="button" tabindex="0">
-      <div class="cic">${em?`<img class="emblem" style="width:42px;height:42px" src="${em}" alt="">`:svg(c.icon)}</div><b>${c.name}</b><span>${c.nameTh} · ${c.role.split(' ')[0]}</span>
-    </div>`;
+  $('#classTabs').innerHTML=OFFICIAL.order.map(id=>{
+    const b=OFFICIAL.bases[id], em=CLASS_EMBLEM[id];
+    return `<div class="ctab ${id===activeBase?'active':''}" data-b="${id}" style="--cc:${b.color}" role="button" tabindex="0">
+      <div class="cic">${em?`<img src="${em}" alt="">`:''}</div><b>${b.name}</b><span>${b.th} · ${b.role.split(' ')[0]}</span></div>`;
   }).join('');
   document.querySelectorAll('.ctab').forEach(el=>{
-    const go=()=>{activeClass=el.dataset.c;renderTabs();renderClassPanel();};
+    const go=()=>{activeBase=el.dataset.b;renderTabs();renderClassPanel();};
     el.onclick=go; el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};
   });
 }
 
 function renderClassPanel(){
-  const c=CLASSES[activeClass];
-  const emblem=CLASS_EMBLEM[activeClass];
-  const tree = c.tree.map(t=>`
-    <div class="tier"><div class="lvl">Lv.${t.lv}</div>
-      ${t.jobs.map(j=>{const ji=jobIcon(j.name);
-        return `<div class="job">${ji?`<img class="jicon" src="${ji}" alt="" loading="lazy">`:''}
-          <div><b>${j.name}</b><span>${j.note}</span></div></div>`;}).join('')}
-    </div>`).join('');
+  const b=OFFICIAL.bases[activeBase];
+  const baseCls=OFFICIAL.classes[b.name];
+  const tree=b.tree.map(t=>`<div class="tier"><div class="lvl">Lv.${t.lv} · อาชีพ ${t.tier}</div>
+    ${t.jobs.map(j=>{const ji=jobIcon(j);return `<div class="job">${ji?`<img class="jicon" src="${ji}" alt="">`:''}<div><b>${j}</b></div></div>`;}).join('')}</div>`).join('');
 
-  const builds = c.builds.map(b=>`
-    <div class="build"><h4>${b.path}</h4><p class="sm">${b.summary}</p>
-      <div class="skill-list">
-        ${b.skills.map(s=>{
-          const ic=findIcon(activeClass,s.name)||CLASS_EMBLEM[activeClass];
-          return `<div class="skill-line">
-            <img class="emblem" src="${ic}" alt="" loading="lazy">
-            <div><b>${s.name}</b> <span class="lv" style="font-size:.66rem">แนะนำ ${s.rec}/${s.max}</span><p>${s.desc}</p></div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>`).join('');
-
-  $('#classPanel').innerHTML = `
-    <div class="class-panel" style="--cc:${c.color}">
+  $('#classPanel').innerHTML=`
+    <div class="class-panel" style="--cc:${b.color}">
       <div class="class-head">
-        <div class="big">${emblem?`<img class="emblem" style="width:46px;height:46px" src="${emblem}" alt="">`:svg(c.icon)}</div>
-        <div><h3>${c.name} <span style="color:var(--dim);font-weight:500;font-size:1rem">/ ${c.nameTh}</span></h3>
-          <p style="color:var(--muted);font-size:.9rem">${c.tagline}</p></div>
+        ${baseCls.portrait?`<img class="portrait" src="${baseCls.portrait}" alt="${esc(b.name)}">`:''}
+        <div><h3>${b.name} <span style="color:var(--dim);font-weight:500;font-size:1rem">/ ${b.th}</span></h3>
+          <div class="chips"><span class="chip"><b>อาวุธ:</b> ${b.weapon}</span><span class="chip"><b>บทบาท:</b> ${b.role}</span></div>
+          <div class="hlist">${(baseCls.highlights||[]).map(h=>`<div>${svg('check')}<span>${esc(h)}</span></div>`).join('')}</div>
+        </div>
       </div>
-      <div class="chips">
-        <span class="chip"><b>อาวุธ:</b> ${c.weapon}</span>
-        <span class="chip"><b>บทบาท:</b> ${c.role}</span>
-      </div>
-      <p style="color:var(--muted);font-size:.92rem;margin-top:6px">${c.desc}</p>
-      <div style="margin-top:18px"><span class="eyebrow" style="color:var(--cc)">แผนผังสายอาชีพ</span></div>
+      <p style="color:var(--muted);font-size:.92rem;margin-top:6px">${esc(baseCls.intro)}</p>
+      <div style="margin-top:18px"><span class="eyebrow" style="color:var(--cc)">แผนผังสายอาชีพ (3 เทียร์)</span></div>
       <div class="tree">${tree}</div>
-      <div style="margin-top:8px"><span class="eyebrow" style="color:var(--cc)">แนวทางบิลด์ & สกิลเด่น (PVE)</span></div>
-      ${builds}
-      <p style="font-size:.8rem;color:var(--dim);margin-top:14px">อยากจัดสกิลเอง? เลื่อนไปที่ <a href="#sim" style="color:var(--cc)">ตัวจำลอง Skill Tree ↓</a> เพื่ออัพสกิลทีละจุดแบบในเกม</p>
+      <p style="font-size:.82rem;color:var(--dim);margin-top:6px">ดูสกิลแต่ละอาชีพแบบละเอียด + ลองจัดบิลด์ได้ที่ <a href="#sim" style="color:var(--cc)" onclick="simToBase('${activeBase}')">ตัวจำลอง Skill Tree ↓</a></p>
     </div>`;
 }
 
 /* ============================================================================
-   VISUAL SKILL TREE SIMULATOR (จาก SKILLS — ข้อมูลจริง)
+   SKILL TREE SIMULATOR (official, auto-layout จาก prerequisite)
    ========================================================================== */
-const NS=46;            // ขนาดไอคอน node (px)
-const GX=78, GY=40;     // ระยะ grid ต่อ 1 หน่วย pos (x=คอลัมน์, y=แถว)
-const PAD=34;           // ขอบ canvas
-const branchLabel = {   // ป้ายสายให้เข้าใจง่าย (ดัชนีตาม SKILLS)
-  0:'Warrior · สาย Knight (โล่/แทงค์)',
-  1:'Warrior · สาย Gladiator (ดาบ 2 มือ)',
-  2:'Magician · สาย Acolyte (ซัพพอร์ต/ฮีล)',
-  3:'Magician · สาย Battlemage (เวท AoE)',
-  4:'Archer · สาย Hunter (ธนู/กับดัก)',
-  5:'Archer · สาย Ranger (หน้าไม้/DPS)',
-  6:'Thief · สาย Jester (กรงเล็บ/อากาศ)',
-  7:'Thief · สาย Assassin (กะตาร์/ลอบ)',
-};
+const NS=46, GX=96, GY=94, PAD=30;
+let simPath=0, simTier=0, alloc={};
 
-let simLine=1, simTier=1;
-// alloc[lineIndex][tierIndex][skillId] = level
-let alloc = {};
+function tierClass(p,t){const pp=(typeof p==='number')?OFFICIAL.paths[p]:p;return OFFICIAL.classes[pp.tiers[t]]}
+function aKey(p,t){return p+'_'+t}
+function getLv(p,t,i){return (alloc[aKey(p,t)]||{})[i]||0}
+function setLv(p,t,i,v){if(!alloc[aKey(p,t)])alloc[aKey(p,t)]={};alloc[aKey(p,t)][i]=v}
 
-function aKey(l,t){return l+'_'+t}
-function getLv(l,t,id){return (alloc[aKey(l,t)]||{})[id]||0}
-function setLv(l,t,id,v){ if(!alloc[aKey(l,t)])alloc[aKey(l,t)]={}; alloc[aKey(l,t)][id]=v; }
-function tierSP(l,t){
-  const a=alloc[aKey(l,t)]||{}; const sk=SKILLS[l].tiers[t].skills;
-  let sp=0; for(const id in a){const s=sk[id]; for(let i=0;i<a[id];i++){ sp += (s.levels[Math.min(i,s.levels.length-1)].sp)||0; }}
-  return sp;
+function skillMax(s){const parts=String(s.reqlv).split('/').filter(x=>/\d/.test(x));return Math.max(1,parts.length)}
+function skillSP(s){const n=parseInt(s.sp,10);return isNaN(n)?0:n}
+function pickLv(str,lv){if(str==null)return '-';const a=String(str).split('/');if(a.length<=1)return str;return a[Math.min(Math.max(lv-1,0),a.length-1)]}
+
+// resolve prerequisite -> {idx, lv}
+function prereqOf(skills,s){
+  if(!s.prereq||s.prereq==='-')return null;
+  const m=String(s.prereq).match(/^(.*?)\s*Lv\.?\s*(\d+)/i)||[null,s.prereq,1];
+  const nm=(m[1]||'').trim().toLowerCase();
+  const idx=skills.findIndex(x=>x.name.toLowerCase()===nm);
+  return idx>=0?{idx,lv:parseInt(m[2],10)||1}:null;
 }
-function totalSP(l){let s=0;for(let t=0;t<SKILLS[l].tiers.length;t++)s+=tierSP(l,t);return s;}
-
-function prereqMet(l,t,skill){
-  return (skill.parent||[]).every(p=>getLv(l,t,p.id) >= (p.lv||1));
+// in-game style: prereq chains flow top->bottom (depth=row),
+// sibling branches spread across columns (tidy-tree, parents centered over children)
+function computeLayout(skills){
+  const pr=skills.map(s=>prereqOf(skills,s));
+  const depth=new Array(skills.length).fill(-1);
+  function d(i,seen){if(depth[i]>=0)return depth[i];if(seen.has(i))return 0;seen.add(i);
+    depth[i]=pr[i]?d(pr[i].idx,seen)+1:0;return depth[i];}
+  skills.forEach((_,i)=>d(i,new Set()));
+  const kids=skills.map(()=>[]), roots=[];
+  pr.forEach((r,i)=>{if(r)kids[r.idx].push(i);else roots.push(i);});
+  const col=new Array(skills.length).fill(0); let nextCol=0;
+  function place(i){
+    if(!kids[i].length){col[i]=nextCol++;return;}
+    kids[i].forEach(place);
+    const cs=kids[i].map(k=>col[k]);
+    col[i]=(Math.min(...cs)+Math.max(...cs))/2;
+  }
+  roots.forEach(place);
+  const pos=skills.map((_,i)=>({col:col[i],row:depth[i]}));
+  return {pr,pos};
 }
-function dependents(l,t,id){ // สกิลที่ใช้ id นี้เป็น prerequisite
-  return SKILLS[l].tiers[t].skills.filter(s=>(s.parent||[]).some(p=>p.id===id));
+function prereqMet(p,t,skills,i,layout){const r=layout.pr[i];return !r || getLv(p,t,r.idx)>=r.lv}
+function tierSP(p,t){const a=alloc[aKey(p,t)]||{};const sk=tierClass(p,t).skills;let sp=0;for(const i in a)sp+=skillSP(sk[i])*a[i];return sp}
+function totalSP(p){let s=0;for(let t=0;t<OFFICIAL.paths[p].tiers.length;t++)s+=tierSP(p,t);return s}
+
+function branchDescOf(pi){
+  const p=OFFICIAL.paths[pi];const b=OFFICIAL.bases[p.base];
+  // หา weapon/role hint จากชื่อสาย
+  return tierClass(p,1).intro.split(' ').slice(0,0).join('')||'';
 }
 
 function renderTree(){
-  const line=SKILLS[simLine], tier=line.tiers[simTier];
-  const cc=line.color;
+  const p=OFFICIAL.paths[simPath], cc=p.color;
+  const tier=tierClass(p,simTier);
+  const skills=tier.skills;
+  const layout=computeLayout(skills);
 
-  // คำนวณขนาด canvas
-  let maxX=0,maxY=0;
-  tier.skills.forEach(s=>{maxX=Math.max(maxX,s.pos[0]);maxY=Math.max(maxY,s.pos[1]);});
-  const W=(maxX)*GX+NS+PAD*2, H=(maxY)*GY+NS+PAD*2+14;
+  let maxCol=0,maxRow=0;
+  layout.pos.forEach(o=>{maxCol=Math.max(maxCol,o.col);maxRow=Math.max(maxRow,o.row);});
+  const W=maxCol*GX+NS+PAD*2, H=maxRow*GY+NS+PAD*2+14;
+  const xy=i=>({x:PAD+layout.pos[i].col*GX, y:PAD+layout.pos[i].row*GY});
 
-  const nodeXY=s=>({x:PAD+s.pos[0]*GX, y:PAD+s.pos[1]*GY});
-
-  // เส้นเชื่อม prerequisite (parent -> child)
   let links='';
-  tier.skills.forEach(s=>{
-    const c=nodeXY(s);
-    (s.parent||[]).forEach(p=>{
-      const par=tier.skills[p.id]; if(!par)return;
-      const a=nodeXY(par);
-      const x1=a.x+NS/2, y1=a.y+NS, x2=c.x+NS/2, y2=c.y;
-      const met=getLv(simLine,simTier,p.id)>=(p.lv||1);
-      const col=met?cc:'#33455e';
-      const midY=(y1+y2)/2;
-      links+=`<path d="M${x1} ${y1} V${midY} H${x2} V${y2}" fill="none" stroke="${col}" stroke-width="2.5" opacity="${met?.9:.5}"/>`;
-      links+=`<circle cx="${x2}" cy="${y2-1}" r="3" fill="${col}"/>`;
-    });
+  skills.forEach((s,i)=>{const r=layout.pr[i];if(!r)return;
+    const a=xy(r.idx), c=xy(i);
+    const x1=a.x+NS/2, y1=a.y+NS, x2=c.x+NS/2, y2=c.y;
+    const met=getLv(simPath,simTier,r.idx)>=r.lv, col=met?cc:'#33455e';
+    const midY=(y1+y2)/2;
+    links+=`<path d="M${x1} ${y1} V${midY} H${x2} V${y2}" fill="none" stroke="${col}" stroke-width="2.5" opacity="${met?.9:.5}"/><circle cx="${x2}" cy="${y2}" r="3" fill="${col}"/>`;
   });
 
-  // nodes
-  const nodes=tier.skills.map(s=>{
-    const {x,y}=nodeXY(s);
-    const lv=getLv(simLine,simTier,s.id);
-    const met=prereqMet(simLine,simTier,s);
-    const cls=lv>=s.max?'maxed':(lv>0?'has':(met?'':'locked'));
-    return `<div class="node ${cls}" style="left:${x}px;top:${y}px;--ns:${NS}px" data-id="${s.id}">
-      <div class="ibox" data-id="${s.id}">
-        <img src="assets/${s.icon}" alt="${esc(s.name)}" loading="lazy">
-        <span class="lvtag">${lv}/${s.max}</span>
-        <button class="pm minus" data-id="${s.id}" data-d="-1" ${lv<=0?'disabled':''} aria-label="ลด">−</button>
-        <button class="pm plus" data-id="${s.id}" data-d="1" ${(lv>=s.max||!met)?'disabled':''} aria-label="เพิ่ม">+</button>
-      </div>
-      <div class="nm">${esc(s.name)}</div>
-    </div>`;
-  }).join('');
+  const nodes=skills.map((s,i)=>{const {x,y}=xy(i);const lv=getLv(simPath,simTier,i);const mx=skillMax(s);
+    const met=prereqMet(simPath,simTier,skills,i,layout);
+    const cls=lv>=mx?'maxed':(lv>0?'has':(met?'':'locked'));
+    return `<div class="node ${cls}" style="left:${x}px;top:${y}px;--ns:${NS}px">
+      <div class="ibox" data-i="${i}"><img src="${s.icon}" alt="${esc(s.name)}" loading="lazy">
+        <span class="lvtag">${lv}/${mx}</span>
+        <button class="pm minus" data-i="${i}" data-d="-1" ${lv<=0?'disabled':''}>−</button>
+        <button class="pm plus" data-i="${i}" data-d="1" ${(lv>=mx||!met)?'disabled':''}>+</button></div>
+      <div class="nm">${esc(s.name)}</div></div>`;}).join('');
 
-  const used=tierSP(simLine,simTier), all=totalSP(simLine);
-
-  const curBase=line.base;
-  const branchLines=SKILLS.map((l,i)=>({l,i})).filter(o=>o.l.base===curBase);
-  const branchDesc=i=>{const m=(branchLabel[i]||'').match(/\(([^)]+)\)/);return m?m[1]:'สายที่ '+(i%2+1);};
-
-  $('#tree').innerHTML = `
+  const used=tierSP(simPath,simTier), all=totalSP(simPath);
+  const curBase=p.base;
+  const branchLines=OFFICIAL.paths.map((pp,i)=>({pp,i})).filter(o=>o.pp.base===curBase);
+  $('#tree').innerHTML=`
     <div class="tree-wrap" style="--cc:${cc}">
       <div class="picker">
         <div class="base-row" id="baseSel">
-          ${classOrder.map(id=>{const c=CLASSES[id],em=CLASS_EMBLEM[id];
-            return `<button class="base-btn ${id===curBase?'on':''}" data-base="${id}" style="--cc:${c.color}">
-              <img src="${em}" alt=""><span>${c.name}</span></button>`;}).join('')}
+          ${OFFICIAL.order.map(id=>{const bb=OFFICIAL.bases[id],em=CLASS_EMBLEM[id];
+            return `<button class="base-btn ${id===curBase?'on':''}" data-base="${id}" style="--cc:${bb.color}"><img src="${em}" alt=""><span>${bb.name}</span></button>`;}).join('')}
         </div>
         <div class="branch-row" id="branchSel">
-          ${branchLines.map(o=>`<button class="branch-btn ${o.i===simLine?'on':''}" data-line="${o.i}" style="--cc:${cc}">
-            <img src="${lineIcon(o.i,1)}" alt="">
-            <div><b>${esc(SKILLS[o.i].tiers[1].job)}</b><small>${esc(branchDesc(o.i))}</small></div></button>`).join('')}
+          ${branchLines.map(o=>{const t2=o.pp.tiers[1],t3=o.pp.tiers[2];
+            return `<button class="branch-btn ${o.i===simPath?'on':''}" data-p="${o.i}" style="--cc:${cc}">
+              <img src="${jobIcon(t2)}" alt=""><div><b>${esc(t2)}</b><small>→ ${esc(t3)}</small></div></button>`;}).join('')}
         </div>
       </div>
       <div class="tree-bar">
         <div class="tier-tabs" id="tierTabs">
-          ${line.tiers.map((t,i)=>`<button data-t="${i}" class="${i===simTier?'on':''}"><img src="${lineIcon(simLine,i)}" alt=""><span>${esc(t.job)}<small>Lv.${t.lv}</small></span></button>`).join('')}
+          ${p.tiers.map((jn,i)=>`<button data-t="${i}" class="${i===simTier?'on':''}"><img src="${jobIcon(jn)}" alt=""><span>${esc(jn)}<small>${['Lv.1','Lv.20','Lv.40'][i]}</small></span></button>`).join('')}
         </div>
         <div class="sp-badge"><div><div class="nn">${used}</div><small>SP เทียร์นี้</small></div>
           <div style="width:1px;height:30px;background:var(--border)"></div>
-          <div><div class="nn" style="color:var(--text)">${all}</div><small>SP รวมทุกเทียร์</small></div>
-        </div>
+          <div><div class="nn" style="color:var(--text)">${all}</div><small>SP รวมทั้งสาย</small></div></div>
       </div>
-      <div class="canvas-scroll">
-        <div class="canvas" style="width:${W}px;height:${H}px">
-          <svg class="links" viewBox="0 0 ${W} ${H}">${links}</svg>
-          ${nodes}
-        </div>
-      </div>
+      <div class="canvas-scroll"><div class="canvas" style="width:${W}px;height:${H}px">
+        <svg class="links" viewBox="0 0 ${W} ${H}">${links}</svg>${nodes}</div></div>
       <div class="tree-legend">
-        <span><i style="border-color:${cc}"></i> ลงแล้ว</span>
-        <span><i style="border-color:var(--gold)"></i> เต็มสกิล</span>
-        <span><i style="border-color:#33455e"></i> ล็อก (ต้องปลดสกิลก่อนหน้า)</span>
-        <span>· ชี้ที่ไอคอนเพื่อดูรายละเอียด · กด +/− ที่มุมไอคอน</span>
+        <span><i style="border-color:${cc}"></i> ลงแล้ว</span><span><i style="border-color:var(--gold)"></i> เต็ม</span>
+        <span><i style="border-color:#33455e"></i> ล็อก (ปลดสกิลก่อนหน้าก่อน)</span><span>· ชี้/แตะไอคอนดูรายละเอียด</span>
       </div>
       <div class="sim-actions">
         <button class="btn btn-ghost btn-sm" id="resetTier">ล้างเทียร์นี้</button>
@@ -279,109 +212,108 @@ function renderTree(){
       </div>
     </div>`;
 
-  // events
-  document.querySelectorAll('#baseSel .base-btn').forEach(b=>b.onclick=()=>{
-    const first=SKILLS.findIndex(l=>l.base===b.dataset.base);
-    if(first>=0){simLine=first;renderTree();}
-  });
-  document.querySelectorAll('#branchSel .branch-btn').forEach(b=>b.onclick=()=>{simLine=+b.dataset.line;renderTree()});
+  document.querySelectorAll('#baseSel .base-btn').forEach(b=>b.onclick=()=>{const fp=OFFICIAL.paths.findIndex(x=>x.base===b.dataset.base);if(fp>=0){simPath=fp;simTier=0;renderTree();}});
+  document.querySelectorAll('#branchSel .branch-btn').forEach(b=>b.onclick=()=>{simPath=+b.dataset.p;renderTree()});
   document.querySelectorAll('#tierTabs button').forEach(b=>b.onclick=()=>{simTier=+b.dataset.t;renderTree()});
-  document.querySelectorAll('.pm').forEach(b=>b.onclick=e=>{e.stopPropagation();changeNode(+b.dataset.id,+b.dataset.d)});
-  document.querySelectorAll('.ibox').forEach(b=>{
-    b.onmouseenter=e=>showTip(e,+b.dataset.id);
-    b.onmousemove=moveTip;
-    b.onmouseleave=hideTip;
-  });
-  $('#resetTier').onclick=()=>{alloc[aKey(simLine,simTier)]={};renderTree()};
-  $('#resetAll').onclick=()=>{for(let t=0;t<SKILLS[simLine].tiers.length;t++)alloc[aKey(simLine,t)]={};renderTree()};
-  $('#saveTree').onclick=()=>{localStorage.setItem('drlv_tree',JSON.stringify({simLine,simTier,alloc}));toast('บันทึกบิลด์ลงเครื่องแล้ว ✓')};
+  document.querySelectorAll('.pm').forEach(b=>b.onclick=e=>{e.stopPropagation();changeNode(+b.dataset.i,+b.dataset.d)});
+  document.querySelectorAll('.ibox').forEach(b=>{b.onmouseenter=e=>showTip(e,+b.dataset.i);b.onmousemove=moveTip;b.onmouseleave=hideTip;
+    b.onclick=e=>{showTip(e,+b.dataset.i);};});
+  $('#resetTier').onclick=()=>{alloc[aKey(simPath,simTier)]={};renderTree()};
+  $('#resetAll').onclick=()=>{for(let t=0;t<OFFICIAL.paths[simPath].tiers.length;t++)alloc[aKey(simPath,t)]={};renderTree()};
+  $('#saveTree').onclick=()=>{localStorage.setItem('drlv_o',JSON.stringify({simPath,simTier,alloc}));toast('บันทึกบิลด์แล้ว ✓')};
   $('#shareTree').onclick=shareTree;
 }
 
-function changeNode(id,d){
-  const tier=SKILLS[simLine].tiers[simTier];
-  const s=tier.skills[id];
-  const lv=getLv(simLine,simTier,id);
+function changeNode(i,d){
+  const p=OFFICIAL.paths[simPath], skills=tierClass(p,simTier).skills, s=skills[i];
+  const layout=computeLayout(skills);
+  const lv=getLv(simPath,simTier,i), mx=skillMax(s);
   if(d>0){
-    if(lv>=s.max) return;
-    if(!prereqMet(simLine,simTier,s)){toast('ต้องปลดล็อกสกิลก่อนหน้าก่อน');return;}
-    setLv(simLine,simTier,id,lv+1);
+    if(lv>=mx)return;
+    if(!prereqMet(simPath,simTier,skills,i,layout)){toast('ต้องปลดล็อกสกิลก่อนหน้าก่อน');return;}
+    setLv(simPath,simTier,i,lv+1);
   }else{
-    if(lv<=0) return;
-    // ถ้าลดแล้วทำให้สกิลที่ต่อยอดอยู่ขาด prerequisite ก็ลดตามไม่ได้ -> เตือน
+    if(lv<=0)return;
     const need=lv-1;
-    const blockers=dependents(simLine,simTier,id).filter(dep=>{
-      const pr=dep.parent.find(p=>p.id===id);
-      return getLv(simLine,simTier,dep.id)>0 && need<(pr.lv||1);
-    });
-    if(blockers.length){toast('ลดไม่ได้: มีสกิล '+blockers[0].name+' ต่อยอดอยู่');return;}
-    setLv(simLine,simTier,id,need);
+    const blocked=skills.some((x,j)=>{const r=prereqOf(skills,x);return r&&r.idx===i&&getLv(simPath,simTier,j)>0&&need<r.lv;});
+    if(blocked){toast('ลดไม่ได้: มีสกิลต่อยอดอยู่');return;}
+    setLv(simPath,simTier,i,need);
   }
   renderTree();
 }
 
-/* ---------- TOOLTIP ---------- */
 let tipEl;
-function showTip(e,id){
-  const line=SKILLS[simLine], tier=line.tiers[simTier], s=tier.skills[id];
-  const lv=getLv(simLine,simTier,id);
-  const shown=Math.max(0,Math.min(lv>0?lv-1:0,s.levels.length-1));
-  const p=s.levels[shown]||{};
+function showTip(e,i){
+  const p=OFFICIAL.paths[simPath], skills=tierClass(p,simTier).skills, s=skills[i];
+  const lv=Math.max(1,getLv(simPath,simTier,i)), mx=skillMax(s);
   if(!tipEl){tipEl=document.createElement('div');tipEl.className='tip-pop';document.body.appendChild(tipEl);}
-  tipEl.style.setProperty('--cc',line.color);
-  const reqLv = typeof p.level==='number'?p.level:(s.levels.find(x=>typeof x.level==='number')||{}).level;
+  tipEl.style.setProperty('--cc',p.color);
   const rows=[
-    p.power?['พลัง',p.power]:null,
-    p.sp!=null?['SP/เลเวล',p.sp]:null,
-    p.mp!=null?['MP',p.mp]:null,
-    p.cool!=null?['คูลดาวน์',p.cool+'s']:null,
-    p.dur?['ระยะเวลา',p.dur+'s']:null,
-    reqLv?['ใช้ได้เลเวล',reqLv]:null,
-  ].filter(Boolean).map(([a,b])=>`<div class="row"><span>${a}</span><span>${b}</span></div>`).join('');
-  const pre=(s.parent||[]).length?`<div class="pre">ต้องมี: ${s.parent.map(pr=>esc(tier.skills[pr.id].name)+' Lv.'+(pr.lv||1)).join(', ')}</div>`:'';
-  tipEl.innerHTML=`<h5>${esc(s.name)} <span style="color:var(--dim);font-size:.8rem">${lv}/${s.max}</span></h5>
-    <div class="ty">${s.type}${s.max>1?' · สูงสุด '+s.max:''}</div>${rows}
-    <div class="ds">${esc(p.desc||'')}</div>${pre}`;
-  tipEl.classList.add('show'); moveTip(e);
+    ['ประเภท',s.type],
+    s.atk&&s.atk!=='-'?['พลัง ATK',pickLv(s.atk,lv)]:null,
+    ['SP',s.sp],
+    s.mp&&s.mp!=='-'?['MP',pickLv(s.mp,lv)]:null,
+    s.cool&&s.cool!=='-'?['คูลดาวน์',s.cool]:null,
+    s.dur&&s.dur!=='-'?['ระยะเวลา',s.dur]:null,
+    s.weapon&&s.weapon!=='-'?['อาวุธ',s.weapon]:null,
+    s.reqlv&&s.reqlv!=='-'?['เลเวลที่ใช้',pickLv(s.reqlv,lv)]:null,
+  ].filter(Boolean).map(([a,b])=>`<div class="row"><span>${a}</span><span>${esc(b)}</span></div>`).join('');
+  const pre=(s.prereq&&s.prereq!=='-')?`<div class="pre">ต้องมี: ${esc(s.prereq)}</div>`:'';
+  tipEl.innerHTML=`<h5>${esc(s.name)} <span style="color:var(--dim);font-size:.8rem">เต็ม ${mx}</span></h5><div class="ty">${esc(s.type)}</div>${rows}<div class="ds">${esc(s.desc)}</div>${pre}`;
+  tipEl.classList.add('show');moveTip(e);
 }
-function moveTip(e){
-  if(!tipEl)return;
-  const pad=16,w=tipEl.offsetWidth||300,h=tipEl.offsetHeight||160;
-  let x=e.clientX+pad, y=e.clientY+pad;
-  if(x+w>innerWidth-8)x=e.clientX-w-pad;
-  if(y+h>innerHeight-8)y=Math.max(8,innerHeight-h-8);
-  tipEl.style.left=x+'px';tipEl.style.top=y+'px';
-}
+function moveTip(e){if(!tipEl)return;const w=tipEl.offsetWidth||300,h=tipEl.offsetHeight||160;let x=e.clientX+16,y=e.clientY+16;
+  if(x+w>innerWidth-8)x=Math.max(8,e.clientX-w-16);if(y+h>innerHeight-8)y=Math.max(8,innerHeight-h-8);tipEl.style.left=x+'px';tipEl.style.top=y+'px';}
 function hideTip(){if(tipEl)tipEl.classList.remove('show')}
 
 function shareTree(){
-  const line=SKILLS[simLine];
-  let txt=`[Dragonica Landverse] บิลด์ ${line.line}\n`;
-  line.tiers.forEach((t,ti)=>{
-    const a=alloc[aKey(simLine,ti)]||{};
-    const got=t.skills.filter(s=>(a[s.id]||0)>0);
-    if(got.length){txt+=`\n— ${t.job} (Lv.${t.lv}) · ${tierSP(simLine,ti)} SP\n`;
-      got.forEach(s=>txt+=`  • ${s.name}: ${a[s.id]}/${s.max}\n`);}
-  });
-  txt+=`\nรวม ${totalSP(simLine)} SP`;
+  const p=OFFICIAL.paths[simPath];
+  let txt=`[Dragonica Landverse] บิลด์ ${p.tiers.join(' → ')}\n`;
+  p.tiers.forEach((jn,t)=>{const a=alloc[aKey(simPath,t)]||{};const sk=tierClass(p,t).skills;
+    const got=Object.keys(a).filter(i=>a[i]>0);
+    if(got.length){txt+=`\n— ${jn} · ${tierSP(simPath,t)} SP\n`;got.forEach(i=>txt+=`  • ${sk[i].name}: ${a[i]}/${skillMax(sk[i])}\n`);}});
+  txt+=`\nรวม ${totalSP(simPath)} SP`;
   navigator.clipboard?.writeText(txt).then(()=>toast('คัดลอกสรุปบิลด์แล้ว ✓'),()=>toast('คัดลอกไม่ได้'));
 }
+function simToBase(base){const fp=OFFICIAL.paths.findIndex(x=>x.base===base);if(fp>=0){simPath=fp;simTier=0;renderTree();}}
 
-/* ---------- TOAST ---------- */
+/* ============================================================================
+   SYSTEMS (generic block renderer)
+   ========================================================================== */
+function renderBlocks(blocks){
+  return blocks.map(b=>{
+    if(b.h)return `<div class="blk-h">${esc(b.h)}</div>`;
+    if(b.p)return `<div class="blk"><p>${b.p}</p></div>`;
+    if(b.list)return `<div class="blk"><ul>${b.list.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`;
+    if(b.steps)return `<ol class="steps">${b.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`;
+    if(b.table)return `<div class="tbl"><table class="dt"><thead><tr>${b.table.head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.table.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    if(b.hint)return `<div class="hint ${b.hint.type}">${svg(b.hint.type)}<div>${b.hint.text}</div></div>`;
+    if(b.cards)return `<div class="scards">${b.cards.map(c=>`<div class="scard"><b>${esc(c.t)}</b><ul>${c.items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`).join('')}</div>`;
+    if(b.faq)return `<div class="faq">${b.faq.map(f=>`<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('')}</div>`;
+    return '';
+  }).join('');
+}
+function renderSystems(){
+  $('#sysChips').innerHTML=SYSTEMS.map(s=>`<button data-id="${s.id}">${svg(s.icon)}${esc(s.title.split('(')[0].trim())}</button>`).join('');
+  $('#systemsWrap').innerHTML=SYSTEMS.map(s=>`
+    <div class="sys-panel" id="sys-${s.id}">
+      <div class="sh"><div class="si">${svg(s.icon)}</div><h3>${esc(s.title)}</h3><span class="tg">${esc(s.tag)}</span></div>
+      <p class="sintro">${s.intro}</p>${renderBlocks(s.blocks)}</div>`).join('');
+  document.querySelectorAll('#sysChips button').forEach(b=>b.onclick=()=>{
+    document.getElementById('sys-'+b.dataset.id)?.scrollIntoView({behavior:'smooth',block:'start'});
+    document.querySelectorAll('#sysChips button').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
+}
+
+/* ---------- TOAST + INIT ---------- */
 let toastTimer;
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');
-  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
 
-/* ---------- INIT ---------- */
 (function init(){
-  try{const s=JSON.parse(localStorage.getItem('drlv_tree'));
-    if(s){simLine=s.simLine??1;simTier=s.simTier??1;alloc=s.alloc||{};}
-  }catch(e){}
-  renderTabs();renderClassPanel();renderTree();
-
+  try{const s=JSON.parse(localStorage.getItem('drlv_o'));if(s){simPath=s.simPath||0;simTier=s.simTier||0;alloc=s.alloc||{};}}catch(e){}
+  renderTabs();renderClassPanel();renderTree();renderSystems();
   $('#menuBtn').onclick=()=>$('#navlinks').classList.toggle('open');
   document.querySelectorAll('#navlinks a').forEach(a=>a.onclick=()=>$('#navlinks').classList.remove('open'));
-
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 })();
+window.simToBase=simToBase;
